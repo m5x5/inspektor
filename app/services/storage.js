@@ -13,7 +13,6 @@ export default Service.extend({
     const rs = new RemoteStorage({
       cache: false
     });
-    this.set('rs', rs);
 
     rs.access.claim('*', 'rw');
 
@@ -25,7 +24,6 @@ export default Service.extend({
     const widget = new Widget(rs, {
       leaveOpen: true
     });
-    this.set('widget', widget);
 
     // Attach widget to DOM
     widget.attach();
@@ -64,6 +62,9 @@ export default Service.extend({
       this.set('connecting', true);
       this.set('connected', false);
     });
+
+    this.set('rs', rs);
+    this.set('widget', widget);
   }.on('init')
 
 });
