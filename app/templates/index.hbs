@@ -1,3 +1,9 @@
-index.hbs
-
-{{outlet}}
+{{#if connecting}}
+  Connecting...
+{{else}}
+  {{#if connected}}
+    Connected.
+  {{else}}
+    Not connected.
+  {{/if}}
+{{/if}}

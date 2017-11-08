@@ -1,0 +1,20 @@
+$dark-grey-1: #2a3743;
+$dark-grey-2: #344453;
+$light-grey-1: #b5c3d1;
+
+#app-container {
+  > aside {
+    background-color: $dark-grey-1;
+    color: $light-grey-1;
+
+    a {
+      color: $light-grey-1;
+      text-decoration: none;
+    }
+  }
+
+  > main {
+    // background-color: $dark-grey-2;
+    background-color: #fff;
+  }
+}

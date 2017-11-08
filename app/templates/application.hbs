@@ -1,13 +1,10 @@
-<h2 id="title">Inspektor</h2>
-
-{{#if connecting}}
-  Connecting...
-{{else}}
-  {{#if connected}}
-    Connected.
-  {{else}}
-    Not connected.
-  {{/if}}
-{{/if}}
-
-{{outlet}}
+<div id="app-container">
+  <aside>
+    {{#if connected}}
+      {{categories-nav categories=categories}}
+    {{/if}}
+  </aside>
+  <main>
+    {{outlet}}
+  </main>
+</div>

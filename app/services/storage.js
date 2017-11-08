@@ -8,6 +8,7 @@ export default Service.extend({
   widget: null,
   connecting: true,
   connected: false,
+  client: null,
 
   setup: function() {
     const rs = new RemoteStorage({
@@ -65,6 +66,7 @@ export default Service.extend({
 
     this.set('rs', rs);
     this.set('widget', widget);
+    this.set('client', rs.scope('/'));
   }.on('init')
 
 });
