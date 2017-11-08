@@ -44,7 +44,7 @@ linters:
     style: same_line # or 'new_line'
 
   EmptyLineBetweenBlocks:
-    enabled: true
+    enabled: false
     ignore_single_line_blocks: true
 
   EmptyRule:
@@ -86,7 +86,7 @@ linters:
     width: 2
 
   LeadingZero:
-    enabled: true
+    enabled: false
     style: exclude_zero # or 'include_zero'
 
   MergeableSelector:
@@ -100,7 +100,7 @@ linters:
 
   NestingDepth:
     enabled: true
-    max_depth: 3
+    max_depth: 5
     ignore_parent_selectors: false
 
   PlaceholderInExtend:
@@ -116,7 +116,7 @@ linters:
     max_properties: 10
 
   PropertySortOrder:
-    enabled: true
+    enabled: false
     ignore_unspecified: false
     min_properties: 2
     separate_groups: false
@@ -151,7 +151,7 @@ linters:
 
   SelectorDepth:
     enabled: true
-    max_depth: 3
+    max_depth: 5
 
   SelectorFormat:
     enabled: true

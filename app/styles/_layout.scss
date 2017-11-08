@@ -4,8 +4,8 @@
 
 #remotestorage-widget {
   position: fixed;
-  top: 0.5rem;
   right: 0.5rem;
+  top: 0.5rem;
 }
 
 #app-container {
@@ -22,8 +22,8 @@
 
   > aside {
     flex: 0 0 16rem;
-    padding: 2rem;
     overflow: auto;
+    padding: 2rem;
 
     nav {
       ul {
@@ -40,7 +40,7 @@
 
   > main {
     flex: 1;
-    padding: 2rem;
     overflow: auto;
+    padding: 2rem;
   }
 }
