@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
-import { observer } from '@ember/object';
+import { observer, computed } from '@ember/object';
 
 export default Controller.extend({
 
@@ -13,12 +13,18 @@ export default Controller.extend({
   categories: null,
 
   handleConnected: observer('connected', function() {
+    this.fetchCategories();
+  }),
+
+  fetchCategories() {
     const client = this.get('storage.client');
 
     client.getListing('').then(listing => {
       let dirnames = Object.keys(listing);
-      this.set('categories', dirnames.map(i => i.replace('/', '')));
+      let categories = dirnames.map(i => i.replace('/', '')).sort();
+      this.set('categories', categories);
     });
-  })
+  }
+
 
 });
