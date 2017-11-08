@@ -1,0 +1,28 @@
+.directory-listing {
+
+  table {
+    width: 100%;
+    margin-bottom: 6rem;
+    border-collapse: collapse;
+
+    thead {
+      display: none;
+    }
+    tbody {
+      tr {
+        border-bottom: 1px solid #ececec;
+      }
+      tr:first-of-type {
+        border-top: 1px solid #ececec;
+      }
+      td {
+        padding: 1rem 1.5rem;
+
+        &.type {
+          color: #aaa;
+        }
+      }
+    }
+  }
+
+}

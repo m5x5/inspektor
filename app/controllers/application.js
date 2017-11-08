@@ -9,21 +9,10 @@ export default Controller.extend({
 
   connecting: alias('storage.connecting'),
   connected: alias('storage.connected'),
-
-  categories: null,
+  categories: alias('storage.categories'),
 
   handleConnected: observer('connected', function() {
-    this.fetchCategories();
-  }),
-
-  fetchCategories() {
-    const client = this.get('storage.client');
-
-    client.getListing('').then(listing => {
-      let dirnames = Object.keys(listing);
-      let categories = dirnames.map(i => i.replace('/', '')).sort();
-      this.set('categories', categories);
-    });
-  }
+    this.get('storage').fetchCategories();
+  })
 
 });

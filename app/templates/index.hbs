@@ -1,9 +1,13 @@
-{{#if connecting}}
-  Connecting...
-{{else}}
-  {{#if connected}}
-    Connected.
+<header>
+  {{#if connecting}}
+  <!-- Connecting... -->
   {{else}}
-    Not connected.
+    {{#unless connected}}
+      Not connected.
+    {{/unless}}
   {{/if}}
+</header>
+
+{{#if currentListing}}
+  {{directory-listing items=currentListing}}
 {{/if}}

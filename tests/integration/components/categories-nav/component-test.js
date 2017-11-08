@@ -5,7 +5,7 @@ moduleForComponent('categories-nav', 'Integration | Component | categories nav',
   integration: true
 });
 
-test('it renders', function(assert) {
+test('it renders categories', function(assert) {
   this.set('categories', [ 'documents', 'notes' ]);
 
   this.render(hbs`{{categories-nav categories=categories}}`);

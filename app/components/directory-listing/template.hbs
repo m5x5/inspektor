@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <tr>
+      <td>Name</td>
+      <td>Type</td>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each items as |item|}}
+    <tr>
+      <td class="name">{{item.name}}</td>
+      <td class="type">{{item.type}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
