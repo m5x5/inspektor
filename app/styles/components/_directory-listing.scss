@@ -18,6 +18,10 @@
       td {
         padding: 1rem 1.5rem;
 
+        &.icon {
+          width: 1rem;
+          padding-right: 0;
+        }
         &.type {
           color: #aaa;
         }
