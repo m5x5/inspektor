@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { isEmpty } from '@ember/utils';
+import { isEmpty, isPresent } from '@ember/utils';
+import { hash } from 'rsvp';
 
 export default Route.extend({
 
@@ -19,7 +20,10 @@ export default Route.extend({
 
     if (path.substr(-1) !== '/') { path += '/'; }
 
-    return this.get('storage').fetchListing(path);
+    return hash({
+      currentListing: this.get('storage').fetchListing(path),
+      currentDirPath: path
+    });
   },
 
   setupController(controller, model) {
@@ -27,6 +31,10 @@ export default Route.extend({
 
     if (isEmpty(this.get('storage.categories')) && this.get('storage.connected')) {
       this.get('storage').fetchRootListing();
+    }
+
+    if (isPresent(model)) {
+      controller.set('currentDirPath', model.currentDirPath);
     }
   }
 

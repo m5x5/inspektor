@@ -3,15 +3,17 @@
   ul.listing {
     display: block;
     width: 100%;
+    margin: 0;
+    padding: 0;
     margin-bottom: 6rem;
 
     li {
       display: table;
       width: 100%;
-      border-bottom: 1px solid #ececec;
+      border-bottom: 1px solid $light-grey-2;
 
       &:first-of-type {
-        border-top: 1px solid #ececec;
+        border-top: 1px solid $light-grey-2;
       }
 
       &:hover {
@@ -41,7 +43,7 @@
           }
           &.type {
             width: 37%;
-            color: #aaa;
+            color: $dark-grey-3;
           }
         }
       }

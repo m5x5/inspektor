@@ -16,6 +16,7 @@ body {
   padding: 0;
 }
 
+@import "components/breadcrumb-nav";
 @import "components/categories-nav";
 @import "components/directory-listing";
 @import "components/item-icon";

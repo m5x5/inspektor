@@ -5,6 +5,18 @@
     {{/if}}
   </aside>
   <main>
+    <header>
+      {{#if connecting}}
+      <!-- Connecting... -->
+      {{else}}
+        {{#if connected}}
+          {{breadcrumb-nav currentDirPath=currentDirPath}}
+        {{else}}
+          Not connected.
+        {{/if}}
+      {{/if}}
+    </header>
+
     {{outlet}}
   </main>
 </div>

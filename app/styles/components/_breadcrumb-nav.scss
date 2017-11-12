@@ -1,0 +1,22 @@
+.breadcrumb-nav {
+
+  a {
+    &.active {
+      text-decoration: none;
+    }
+  }
+
+  .node {
+    display: inline-block;
+  }
+
+  .node + .node {
+    margin-left: 0.5rem;
+
+    &::before {
+      content: '›';
+      padding-right: 0.6rem;
+    }
+  }
+
+}

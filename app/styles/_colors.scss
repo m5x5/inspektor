@@ -1,6 +1,8 @@
 $dark-grey-1: #2a3743;
 $dark-grey-2: #344453;
+$dark-grey-3: #aaa;
 $light-grey-1: #b5c3d1;
+$light-grey-2: #ececec;
 
 #app-container {
   > aside {
@@ -19,5 +21,15 @@ $light-grey-1: #b5c3d1;
   > main {
     // background-color: $dark-grey-2;
     background-color: #fff;
+
+    > header {
+      a:link,
+      a:visited {
+        color: $dark-grey-3;
+      }
+      a:hover {
+        color: $dark-grey-1;
+      }
+    }
   }
 }
