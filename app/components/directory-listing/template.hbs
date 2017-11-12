@@ -1,17 +1,11 @@
-<table>
-  <thead>
-    <tr>
-      <td>Name</td>
-      <td>Type</td>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each items as |item|}}
-    <tr>
-      <td class="icon">{{item-icon type=item.type}}</td>
-      <td class="name">{{item.name}}</td>
-      <td class="type">{{item.type}}</td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
+<ul class="listing">
+  {{#each items as |item|}}
+  <li>
+    {{#link-to "index"}}
+      <span class="icon">{{item-icon type=item.type}}</span>
+      <span class="name">{{item.name}}</span>
+      <span class="type">{{item.type}}</span>
+    {{/link-to}}
+  </li>
+  {{/each}}
+</ul>

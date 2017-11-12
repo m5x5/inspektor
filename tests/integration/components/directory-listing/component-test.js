@@ -13,6 +13,7 @@ test('it renders directory items', function(assert) {
 
   this.render(hbs`{{directory-listing items=items}}`);
 
-  assert.equal(this.$('table tbody tr:first td:nth-of-type(2)').text(), 'documents');
-  assert.equal(this.$('table tbody tr:first td:nth-of-type(3)').text(), 'folder');
+  assert.equal(this.$('ul li:nth-of-type(1) span.name').text(), 'documents');
+  assert.equal(this.$('ul li:nth-of-type(1) span.type').text(), 'folder');
+  assert.equal(this.$('ul li:nth-of-type(2) span.name').text(), 'public');
 });
