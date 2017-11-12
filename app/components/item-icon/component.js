@@ -14,12 +14,17 @@ export default Component.extend({
 
   src: function() {
     let prefix = '/img/file-icons/';
+    let type = this.get('type');
     let filename;
 
     if (this.get('isFolder')) {
       filename = 'folder.svg';
     } else {
-      filename = 'file.svg';
+      if (type.match(/json/i)) {
+        filename = 'code-curly.svg';
+      } else {
+        filename = 'file.svg';
+      }
     }
 
     return prefix + filename;
