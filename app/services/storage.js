@@ -26,7 +26,7 @@ export default Service.extend({
     // });
 
     const widget = new Widget(rs, {
-      leaveOpen: true
+      // leaveOpen: true
     });
 
     // Attach widget to DOM

@@ -25,6 +25,11 @@
     flex: 0 0 16rem;
     overflow: auto;
     padding: 2rem;
+
+    nav {
+      margin-top: 5rem;
+      margin-bottom: 4rem;
+    }
   }
 
   > main {
@@ -33,7 +38,7 @@
     padding: 2rem;
 
     > header {
-      height: 6em;
+      height: 4em;
     }
   }
 }
