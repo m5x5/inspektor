@@ -1,6 +1,8 @@
+import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import RemoteStorage from 'npm:remotestoragejs';
 import Widget from 'npm:remotestorage-widget';
+import simpleContentType from 'inspektor/utils/simple-content-type';
 
 export default Service.extend({
 
@@ -80,6 +82,26 @@ export default Service.extend({
                                .sort();
 
       this.set('categories', categories);
+    });
+  },
+
+  fetchListing(path) {
+    let items = [];
+
+    return this.get('client').getListing(path).then(listing => {
+      Object.keys(listing).forEach(name => {
+        let item = listing[name];
+        let type = item['Content-Type'] || 'folder';
+        if (type !== 'folder') { type = simpleContentType(type); }
+
+        items.push(EmberObject.create({
+          name: name,
+          type: type,
+          size: item['Content-Length'] || null
+        }));
+      });
+
+      return items;
     });
   }
 
