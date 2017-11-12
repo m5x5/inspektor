@@ -11,9 +11,17 @@
     tbody {
       tr {
         border-bottom: 1px solid #ececec;
-      }
-      tr:first-of-type {
-        border-top: 1px solid #ececec;
+
+        &:first-of-type {
+          border-top: 1px solid #ececec;
+        }
+
+        &:hover {
+          td {
+            opacity: 0.7;
+            cursor: pointer;
+          }
+        }
       }
       td {
         padding: 1rem 1.5rem;

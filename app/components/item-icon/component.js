@@ -6,4 +6,8 @@ export default Component.extend({
 
   type: null,
 
+  isFolder: function() {
+    return this.get('type') === 'folder';
+  }.property('type')
+
 });

@@ -10,6 +10,9 @@ $light-grey-1: #b5c3d1;
     a {
       color: $light-grey-1;
       text-decoration: none;
+      &:hover {
+        color: #fff;
+      }
     }
   }
 
