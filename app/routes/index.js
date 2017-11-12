@@ -34,6 +34,14 @@ export default Route.extend({
 
       return items;
     });
+  },
+
+  setupController(controller, model) {
+    this._super(controller, model);
+
+    if (isEmpty(this.get('storage.categories')) && this.get('storage.connected')) {
+      this.get('storage').fetchCategories();
+    }
   }
 
 });
