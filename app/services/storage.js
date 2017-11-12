@@ -11,7 +11,7 @@ export default Service.extend({
   connecting: true,
   connected: false,
   client: null,
-  categories: null,
+  rootListing: null,
 
   setup: function() {
     const rs = new RemoteStorage({
@@ -72,16 +72,9 @@ export default Service.extend({
     this.set('client', rs.scope('/'));
   }.on('init'),
 
-  fetchCategories() {
-    const client = this.get('client');
-
-    client.getListing('').then(listing => {
-      let dirnames = Object.keys(listing);
-      let categories = dirnames.reject(i => i.substr(-1) !== '/')
-                               .map(i => i.replace('/', ''))
-                               .sort();
-
-      this.set('categories', categories);
+  fetchRootListing() {
+    this.fetchListing('').then(items => {
+      this.set('rootListing', items.sortBy('name'));
     });
   },
 

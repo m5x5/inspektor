@@ -26,7 +26,7 @@ export default Route.extend({
     this._super(controller, model);
 
     if (isEmpty(this.get('storage.categories')) && this.get('storage.connected')) {
-      this.get('storage').fetchCategories();
+      this.get('storage').fetchRootListing();
     }
   }
 

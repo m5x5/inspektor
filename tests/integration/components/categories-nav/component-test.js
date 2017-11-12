@@ -6,7 +6,10 @@ moduleForComponent('categories-nav', 'Integration | Component | categories nav',
 });
 
 test('it renders categories', function(assert) {
-  this.set('categories', [ 'documents', 'notes' ]);
+  this.set('categories', [
+    { name: 'documents', path: 'documents/' },
+    { name: 'notes', path: 'notes/' }
+  ]);
 
   this.render(hbs`{{categories-nav categories=categories}}`);
 
