@@ -2,6 +2,7 @@ import Route from '@ember/routing/route';
 import EmberObject from '@ember/object';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
+import simpleContentType from 'inspektor/utils/simple-content-type';
 
 export default Route.extend({
 
@@ -24,10 +25,12 @@ export default Route.extend({
     return this.get('storage.client').getListing(path).then(listing => {
       Object.keys(listing).forEach(name => {
         let item = listing[name];
+        let type = item['Content-Type'] || 'folder';
+        if (type !== 'folder') { type = simpleContentType(type); }
 
         items.push(EmberObject.create({
           name: name,
-          type: item['Content-Type'] || 'folder',
+          type: type,
           size: item['Content-Length'] || null
         }));
       });
