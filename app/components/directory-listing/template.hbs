@@ -5,6 +5,7 @@
       {{#link-to "index" (query-params path=item.path)}}
         <span class="icon">{{item-icon type=item.type}}</span>
         <span class="name">{{item.name}}</span>
+        <span class="size"></span>
         <span class="type">{{item.type}}</span>
       {{/link-to}}
     {{else}}
@@ -12,6 +13,7 @@
       {{#link-to "index"}}
         <span class="icon">{{item-icon type=item.type}}</span>
         <span class="name">{{item.name}}</span>
+        <span class="size">{{human-file-size item.size}}</span>
         <span class="type">{{item.type}}</span>
       {{/link-to}}
     {{/if}}

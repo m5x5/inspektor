@@ -41,8 +41,14 @@
           &.name {
             width: 60%;
           }
+          &.size {
+            width: 10%;
+            white-space: nowrap;
+            color: $dark-grey-3;
+          }
           &.type {
-            width: 37%;
+            width: 27%;
+            white-space: nowrap;
             color: $dark-grey-3;
           }
         }
