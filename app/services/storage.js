@@ -75,7 +75,10 @@ export default Service.extend({
 
     client.getListing('').then(listing => {
       let dirnames = Object.keys(listing);
-      let categories = dirnames.map(i => i.replace('/', '')).sort();
+      let categories = dirnames.reject(i => i.substr(-1) !== '/')
+                               .map(i => i.replace('/', ''))
+                               .sort();
+
       this.set('categories', categories);
     });
   }
