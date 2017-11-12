@@ -16,7 +16,7 @@ export default Controller.extend({
 
   currentListing: function() {
     if (isPresent(this.get('model'))) {
-      return this.get('model');
+      return this.get('model').sortBy('name');
     }
 
     if (!this.get('categories')) { return null; }
