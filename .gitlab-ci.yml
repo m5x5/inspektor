@@ -1,0 +1,13 @@
+image: node:latest
+
+cache:
+  paths:
+  - node_modules/
+
+before_script:
+  - npm install -g ember-cli
+  - npm install
+
+test:
+  script:
+    - npm test
