@@ -97,7 +97,9 @@ export default Service.extend({
         items.push(EmberObject.create({
           name: name,
           type: type,
-          size: item['Content-Length'] || null
+          isFolder: type === 'folder',
+          size: item['Content-Length'] || null,
+          path: path + name
         }));
       });
 

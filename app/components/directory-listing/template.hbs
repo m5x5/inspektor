@@ -1,11 +1,20 @@
 <ul class="listing">
   {{#each items as |item|}}
   <li>
-    {{#link-to "index"}}
-      <span class="icon">{{item-icon type=item.type}}</span>
-      <span class="name">{{item.name}}</span>
-      <span class="type">{{item.type}}</span>
-    {{/link-to}}
+    {{#if item.isFolder}}
+      {{#link-to "index" (query-params path=item.path)}}
+        <span class="icon">{{item-icon type=item.type}}</span>
+        <span class="name">{{item.name}}</span>
+        <span class="type">{{item.type}}</span>
+      {{/link-to}}
+    {{else}}
+      <!-- TODO link to item -->
+      {{#link-to "index"}}
+        <span class="icon">{{item-icon type=item.type}}</span>
+        <span class="name">{{item.name}}</span>
+        <span class="type">{{item.type}}</span>
+      {{/link-to}}
+    {{/if}}
   </li>
   {{/each}}
 </ul>
