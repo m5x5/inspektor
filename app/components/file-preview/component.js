@@ -9,6 +9,7 @@ export default Component.extend({
 
   fileLoaded: false,
   fileContent: null,
+  objectURL: null,
   metaData: null,
   type: alias('metaData.type'),
   isBinary: alias('metaData.isBinary'),
@@ -21,11 +22,19 @@ export default Component.extend({
     return !this.get('isBinary');
   }.property('isBinary'),
 
-  fetchFile: function() {
+  loadFile: function() {
     let path = this.get('metaData.path');
 
+    // TODO don't fetch is size above certain limit
+
     this.get('storage.client').getFile(path).then(file => {
-      this.set('fileContent', file.data);
+      if (this.get('isImage')) {
+        let view = new window.Uint8Array(file.data);
+        let blob = new window.Blob([view], { type: file.contentType });
+        this.set('objectURL', window.URL.createObjectURL(blob));
+      } else {
+        this.set('fileContent', file.data);
+      }
       this.set('fileLoaded', true);
     });
   }.on('init')
