@@ -85,11 +85,16 @@ export default Service.extend({
       Object.keys(listing).forEach(name => {
         let item = listing[name];
         let type = item['Content-Type'] || 'folder';
-        if (type !== 'folder') { type = simpleContentType(type); }
+        let isBinary = false;
+        if (type !== 'folder') {
+          isBinary = !!type.match(/charset=binary/);
+          type = simpleContentType(type);
+        }
 
         items.push(EmberObject.create({
           name: name,
           type: type,
+          isBinary: isBinary,
           isFolder: type === 'folder',
           size: item['Content-Length'] || null,
           path: path + name,

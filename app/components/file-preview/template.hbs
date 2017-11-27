@@ -1,0 +1,9 @@
+{{#if fileLoaded}}
+  {{#if isImage}}
+    <img src="" alt={{metaData.name}}>
+  {{/if}}
+
+  {{#if isText}}
+    <code>{{fileContent}}</code>
+  {{/if}}
+{{/if}}
