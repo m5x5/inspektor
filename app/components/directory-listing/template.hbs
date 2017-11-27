@@ -1,5 +1,5 @@
 <ul class="listing">
-  {{#each items as |item|}}
+  {{#each itemsSorted as |item|}}
   <li>
     {{#if item.isFolder}}
       {{#link-to "index" (query-params path=item.path)}}
