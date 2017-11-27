@@ -92,7 +92,8 @@ export default Service.extend({
           type: type,
           isFolder: type === 'folder',
           size: item['Content-Length'] || null,
-          path: path + name
+          path: path + name,
+          etag: item['ETag']
         }));
       });
 

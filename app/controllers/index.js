@@ -9,8 +9,8 @@ export default Controller.extend({
   application: controller(),
   storage: service(),
 
-  connecting: alias('storage.connecting'),
-  connected: alias('storage.connected'),
+  // connecting: alias('storage.connecting'),
+  // connected: alias('storage.connected'),
   rootListing: alias('storage.rootListing'),
   currentDirPath: alias('application.currentDirPath'),
 

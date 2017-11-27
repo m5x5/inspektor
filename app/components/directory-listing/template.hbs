@@ -10,7 +10,7 @@
       {{/link-to}}
     {{else}}
       <!-- TODO link to item -->
-      {{#link-to "index"}}
+      {{#link-to "inspect" (query-params path=item.path)}}
         <span class="icon">{{item-icon type=item.type}}</span>
         <span class="name">{{item.name}}</span>
         <span class="size">{{human-file-size item.size}}</span>

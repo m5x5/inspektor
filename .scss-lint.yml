@@ -123,7 +123,10 @@ linters:
 
   PropertySpelling:
     enabled: true
-    extra_properties: []
+    extra_properties: [
+      'grid-template-columns',
+      'grid-column-start'
+    ]
     disabled_properties: []
 
   PropertyUnits:
