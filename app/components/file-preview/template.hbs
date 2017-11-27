@@ -1,6 +1,10 @@
 {{#if fileLoaded}}
-  {{#if isImage}}
-  <img src={{objectURL}} alt={{metaData.name}}>
+  {{#if isBinary}}
+    {{#if isImage}}
+      <img src={{objectURL}} alt={{metaData.name}}>
+    {{else}}
+      <p>No preview available for this content type.</p>
+    {{/if}}
   {{/if}}
 
   {{#if isText}}
