@@ -9,11 +9,12 @@
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "",
+  "repository": "gitlab:skddc/inspektor",
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember test"
+    "test": "ember test",
+    "deploy": "bash scripts/deploy.sh"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
