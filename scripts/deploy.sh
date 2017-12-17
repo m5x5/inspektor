@@ -1,6 +1,8 @@
 #!/bin/sh
 set -xe
 
+# Pull build branch to make sure it's up to date
+git pull origin build-production
 # Check out build branch
 git checkout build-production
 # Copy from build dir to root
