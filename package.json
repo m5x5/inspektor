@@ -12,9 +12,11 @@
   "repository": "gitlab:skddc/inspektor",
   "scripts": {
     "build": "ember build",
+    "build-prod": "ember build --environment production && npm run update-version-file",
     "start": "ember server",
     "test": "ember test",
-    "deploy": "bash scripts/deploy.sh"
+    "deploy": "npm run build-prod && bash scripts/deploy.sh",
+    "update-version-file": "bash scripts/update-version-file.sh"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
