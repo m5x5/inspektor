@@ -1,7 +1,8 @@
-# inspektor
+# RS Inspektor
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+Inspektor is a simple file browser for inspecting the contents of a
+[remoteStorage](https://remotestorage.io) account. It is intended for RS app
+developers and power users.
 
 ## Prerequisites
 
@@ -40,7 +41,14 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-Specify what it takes to deploy your app.
+With the 5apps remote added correctly (and push access to the GitLab repo),
+just run:
+
+    npm run deploy
+
+If you want to deploy this from and to different repos, have a look at the
+`scripts` section in `package.json`, as well as `scripts/deploy.sh` for how it
+works.
 
 ## Further Reading / Useful Links
 
