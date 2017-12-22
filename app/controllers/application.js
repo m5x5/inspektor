@@ -2,7 +2,6 @@ import Controller from '@ember/controller';
 import EmberObject from '@ember/object';
 import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
-import { observer } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 
 export default Controller.extend({
@@ -12,10 +11,6 @@ export default Controller.extend({
   connecting: alias('storage.connecting'),
   connected: alias('storage.connected'),
   rootListing: alias('storage.rootListing'),
-
-  handleConnected: observer('connected', function() {
-    this.get('storage').fetchRootListing();
-  }),
 
   categories: function() {
     let categories = [];

@@ -14,6 +14,8 @@ export default Route.extend({
   },
 
   model(params) {
+    if (this.get('storage.disconnected')) { return {}; }
+
     let path = params.path;
 
     if (isEmpty(params.path)) { return null; }
@@ -28,6 +30,7 @@ export default Route.extend({
 
   setupController(controller, model) {
     this._super(controller, model);
+    if (this.get('storage.disconnected')) { return true; }
 
     if (isEmpty(this.get('storage.categories')) && this.get('storage.connected')) {
       this.get('storage').fetchRootListing();
