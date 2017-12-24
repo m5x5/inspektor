@@ -1,7 +1,8 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { isEmpty, isPresent } from '@ember/utils';
-import { hash } from 'rsvp';
+import { later } from '@ember/runloop';
+import { hash, Promise } from 'rsvp';
 
 export default Route.extend({
 
@@ -13,8 +14,12 @@ export default Route.extend({
     }
   },
 
+  beforeModel() {
+    return this.waitForConnectionState();
+  },
+
   model(params) {
-    if (this.get('storage.disconnected')) { return {}; }
+    if (this.get('storage.disconnected')) { return null; }
 
     let path = params.path;
 
@@ -39,6 +44,21 @@ export default Route.extend({
     if (isPresent(model)) {
       controller.set('currentDirPath', model.currentDirPath);
     }
+  },
+
+  waitForConnectionState() {
+    let self = this;
+
+    return new Promise(resolve => {
+      function checkConnectingDone() {
+        if (self.get('storage.connecting')) {
+          later(checkConnectingDone, 20);
+        } else {
+          resolve();
+        }
+      }
+      checkConnectingDone();
+    });
   }
 
 });
