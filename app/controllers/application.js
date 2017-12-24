@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import EmberObject from '@ember/object';
+import { observer } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
@@ -11,6 +12,7 @@ export default Controller.extend({
   connecting: alias('storage.connecting'),
   connected: alias('storage.connected'),
   rootListing: alias('storage.rootListing'),
+  currentDirPath: null,
 
   categories: function() {
     let categories = [];
@@ -28,8 +30,14 @@ export default Controller.extend({
     });
 
     return categories;
-  }.property('rootListing')
+  }.property('rootListing'),
 
-
+  connectedChange: observer('connected', function() {
+    if (this.get('connected')) {
+      // console.debug('connectedChange connected');
+    } else {
+      this.set('currentDirPath', null);
+    }
+  }),
 
 });

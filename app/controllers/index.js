@@ -10,7 +10,6 @@ export default Controller.extend({
   application: controller(),
   storage: service(),
 
-  // connecting: alias('storage.connecting'),
   connected: alias('storage.connected'),
   rootListing: alias('storage.rootListing'),
   currentDirPath: alias('application.currentDirPath'),
@@ -29,7 +28,7 @@ export default Controller.extend({
     if (this.get('connected')) {
       // console.debug('connectedChange connected');
     } else {
-      this.set('model', {});
+      this.set('model', null);
       this.set('path', null);
     }
   }),
