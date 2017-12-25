@@ -1,18 +1,21 @@
-<div id="app-container">
+<div id="app-container" class={{connectedClass}}>
   <aside>
     {{#if connected}}
+      <div id="account">
+        <span class="user-address">{{userAddress}}</span>
+      </div>
       {{categories-nav categories=categories}}
     {{/if}}
   </aside>
   <main>
     <header>
       {{#if connecting}}
-      <!-- Connecting... -->
+        <!-- Connecting... -->
       {{else}}
         {{#if connected}}
           {{breadcrumb-nav currentDirPath=currentDirPath}}
         {{else}}
-          Not connected.
+          <!-- Please connect. -->
         {{/if}}
       {{/if}}
     </header>

@@ -4,7 +4,14 @@ $dark-grey-3: #aaa;
 $light-grey-1: #b5c3d1;
 $light-grey-2: #ececec;
 
+body {
+  background-color: #fff;
+  transition: background-color 0.2s linear;
+}
+
 #app-container {
+  background-color: #fff;
+
   > aside {
     background-color: $dark-grey-1;
     color: $light-grey-1;
@@ -19,7 +26,6 @@ $light-grey-2: #ececec;
   }
 
   > main {
-    // background-color: $dark-grey-2;
     background-color: #fff;
 
     > header {
@@ -31,5 +37,9 @@ $light-grey-2: #ececec;
         color: $dark-grey-1;
       }
     }
+  }
+
+  &.disconnected main {
+    background-color: $light-grey-2;
   }
 }

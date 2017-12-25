@@ -11,6 +11,7 @@ export default Service.extend({
   widget: null,
   connecting: true,
   connected: false,
+  userAddress: null,
   disconnected: computed.not('connected'),
   client: null,
   rootListing: null,
@@ -43,6 +44,7 @@ export default Service.extend({
       console.debug('rs.on connected');
       this.set('connecting', false);
       this.set('connected', true);
+      this.set('userAddress', this.get('rs').remote.userAddress);
     });
 
     rs.on('not-connected', () => {
@@ -78,9 +80,16 @@ export default Service.extend({
     if (this.get('connected')) {
       this.fetchRootListing();
     } else {
-      this.set('rootListing', null);
+      this.clearLocalData();
     }
   }),
+
+  clearLocalData() {
+    this.setProperties({
+      userAddress: null,
+      rootListing: null
+    });
+  },
 
   fetchRootListing() {
     this.fetchListing('').then(items => {

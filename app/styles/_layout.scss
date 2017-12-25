@@ -3,11 +3,22 @@
 }
 
 #remotestorage-widget {
-  position: fixed;
-  top: 1rem;
-  right: 3rem;
-  z-index: 1;
+  z-index: 23;
+  display: none;
+  top: 20%;
+  left: 50%;
+  margin-left: -200px;
 }
+
+.connect #remotestorage-widget {
+  display: block;
+}
+
+// .index #remotestorage-widget {
+//   position: fixed;
+//   top: 1rem;
+//   right: 3rem;
+// }
 
 #app-container {
   position: absolute;
@@ -21,15 +32,32 @@
   justify-content: flex-start;
   align-items: stretch;
 
-  > aside {
-    flex: 0 0 16rem;
-    overflow: auto;
-    padding: 2rem;
-
-    nav {
-      margin-top: 5rem;
-      margin-bottom: 4rem;
+  &.disconnected {
+    > aside {
+      flex: 0;
+      overflow: hidden;
     }
+  }
+
+  &.connected {
+    > aside {
+      flex: 0 0 16rem;
+      overflow: auto;
+      padding: 3rem 2rem;
+    }
+  }
+
+  > aside {
+    transition: flex 0.2s ease-in;
+
+    #account {
+      height: 4em;
+    }
+
+    // nav {
+    //   margin-top: 5rem;
+    //   margin-bottom: 4rem;
+    // }
   }
 
   > main {

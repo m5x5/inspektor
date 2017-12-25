@@ -15,12 +15,14 @@ export default Route.extend({
   },
 
   beforeModel() {
-    return this.waitForConnectionState();
+    return this.waitForConnectionState().then(() => {
+      if (this.get('storage.disconnected')) {
+        this.transitionTo('connect');
+      }
+    });
   },
 
   model(params) {
-    if (this.get('storage.disconnected')) { return null; }
-
     let path = params.path;
 
     if (isEmpty(params.path)) { return null; }
@@ -35,7 +37,6 @@ export default Route.extend({
 
   setupController(controller, model) {
     this._super(controller, model);
-    if (this.get('storage.disconnected')) { return true; }
 
     if (isEmpty(this.get('storage.categories')) && this.get('storage.connected')) {
       this.get('storage').fetchRootListing();

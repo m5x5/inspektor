@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import EmberObject from '@ember/object';
-import { observer } from '@ember/object';
+import { computed, observer } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
@@ -11,8 +11,13 @@ export default Controller.extend({
 
   connecting: alias('storage.connecting'),
   connected: alias('storage.connected'),
+  userAddress: alias('storage.userAddress'),
   rootListing: alias('storage.rootListing'),
   currentDirPath: null,
+
+  connectedClass: computed('connected', function() {
+    return this.get('connected') ? 'connected' : 'disconnected';
+  }),
 
   categories: function() {
     let categories = [];
