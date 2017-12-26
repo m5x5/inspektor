@@ -9,6 +9,7 @@ const Router = EmberRouter.extend({
 Router.map(function() {
   this.route('inspect');
   this.route('connect');
+  this.route('disconnect');
 });
 
 export default Router;
