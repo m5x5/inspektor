@@ -1,9 +1,7 @@
 <div id="app-container" class={{connectedClass}}>
   <aside>
     {{#if connected}}
-      <div id="account">
-        <span class="user-address">{{userAddress}}</span>
-      </div>
+      {{account-info userAddress=userAddress}}
       {{categories-nav categories=categories}}
     {{/if}}
   </aside>

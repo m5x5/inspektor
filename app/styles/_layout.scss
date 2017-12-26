@@ -43,15 +43,15 @@
     > aside {
       flex: 0 0 16rem;
       overflow: auto;
-      padding: 3rem 2rem;
+      padding: 2rem;
     }
   }
 
   > aside {
     transition: flex 0.2s ease-in;
 
-    #account {
-      height: 4em;
+    .account-info {
+      height: 5rem;
     }
 
     // nav {
@@ -66,7 +66,7 @@
     padding: 3rem 4rem;
 
     > header {
-      height: 4em;
+      height: 4rem;
     }
   }
 }
