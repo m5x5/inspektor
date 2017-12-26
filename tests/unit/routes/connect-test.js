@@ -1,8 +1,7 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('route:connect', 'Unit | Route | connect', {
-  // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
+  needs: ['service:storage']
 });
 
 test('it exists', function(assert) {
