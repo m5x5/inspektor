@@ -82,11 +82,12 @@
     padding: 1.5rem 1px;
 
     &.content {
-      // foo
+      overflow: hidden;
     }
 
     &.meta {
       grid-column-start: 3;
+      overflow: hidden;
 
       dl {
         margin: 0;
