@@ -1,5 +1,8 @@
 <header>
   {{breadcrumb-nav currentDirPath=currentDirPath}}
+  <nav class="actions">
+    <button class="delete" {{action "deleteItem"}}>delete</button>
+  </nav>
 </header>
 
 <div class="inspect-details">

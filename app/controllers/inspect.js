@@ -12,4 +12,21 @@ export default Controller.extend({
 
   queryParams: ['path'],
 
+  actions: {
+
+    deleteItem () {
+      if (window.confirm('Sure?')) {
+        this.get('storage.client')
+            .remove(this.get('path')).then(() => {
+              this.transitionToRoute('index', {
+                queryParams: {
+                  path: this.get('currentDirPath')
+                }
+              });
+            });
+      }
+    }
+
+  }
+
 });
