@@ -11,6 +11,8 @@ export default Route.extend(BodyClassMixin, {
       console.debug('rs.on error', error);
       if (error.name === 'Unauthorized') {
         this.handleUnauthorized();
+      } else if (error.name === 'DiscoveryError') {
+        // Do nothing, because the widget will handle it
       } else {
         alert('An unknown error occured. Please check the browser console for details.');
       }
