@@ -1,6 +1,7 @@
 import EmberObject from '@ember/object';
-import { computed, observer } from '@ember/object';
 import Service from '@ember/service';
+import { computed, observer } from '@ember/object';
+import { isEmpty } from '@ember/utils';
 import RemoteStorage from 'npm:remotestoragejs';
 import Widget from 'npm:remotestorage-widget';
 import simpleContentType from 'inspektor/utils/simple-content-type';
@@ -11,6 +12,7 @@ export default Service.extend({
   widget: null,
   connecting: true,
   connected: false,
+  unauthorized: false,
   userAddress: null,
   disconnected: computed.not('connected'),
   client: null,
@@ -101,6 +103,8 @@ export default Service.extend({
     let items = [];
 
     return this.get('client').getListing(path).then(listing => {
+      if (isEmpty(listing)) { return []; }
+
       Object.keys(listing).forEach(name => {
         let item = listing[name];
         let type = item['Content-Type'] || 'folder';
