@@ -26,6 +26,8 @@ export default Controller.extend({
   }.property('rootListing.[]', 'model.[]'),
 
   documents: computed('currentListing.[]', function () {
+    if (isEmpty(this.get('currentListing'))) { return []; }
+
     return this.get('currentListing')
                .reject(item => item.path.substr(-1) === '/');
   }),
