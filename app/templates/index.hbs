@@ -1,5 +1,10 @@
 <header>
   {{breadcrumb-nav currentDirPath=currentDirPath}}
+  <nav class="actions">
+    {{#if currentListingContainsDocuments}}
+    <button class="delete-all" {{action "deleteDocuments"}}>delete all</button>
+    {{/if}}
+  </nav>
 </header>
 
 {{#if currentListing}}

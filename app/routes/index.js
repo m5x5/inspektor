@@ -44,6 +44,12 @@ export default Route.extend({
 
     if (isPresent(model)) {
       controller.set('currentDirPath', model.currentDirPath);
+
+      if (isEmpty(model.currentListing)) {
+        this.transitionTo('index', {
+          queryParams: { path: controller.get('parentDir') }
+        });
+      }
     }
   },
 
