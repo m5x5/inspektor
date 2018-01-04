@@ -14,10 +14,10 @@ contribute and/or give feedback: https://gitlab.com/skddc/inspektor
 * [x] View document details
 * [x] Render images in details
 * [x] Render text content in details (e.g. JSON)
+* [x] Delete documents
+* [ ] Delete directories
 * [ ] Render other types content (e.g. audio and video)
 * [ ] Edit text content (and save changes)
-* [ ] Delete documents
-* [ ] Delete directories
 * [ ] Copy/move documents
 * [ ] Copy/move directories (and enclosed files)
 * [ ] Loading indicator for any view change that loads remote data
