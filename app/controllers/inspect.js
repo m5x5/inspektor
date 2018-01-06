@@ -24,6 +24,8 @@ export default Controller.extend({
   jsonShowTree: computed.equal('jsonView', 'tree'),
   jsonShowSource: computed.equal('jsonView', 'source'),
 
+  metadataHidden: false,
+
   actions: {
 
     showJsonTree () {
@@ -32,6 +34,10 @@ export default Controller.extend({
 
     showJsonSource () {
       this.set('jsonView', 'source');
+    },
+
+    toggleMetadata () {
+      this.toggleProperty('metadataHidden');
     },
 
     deleteItem () {

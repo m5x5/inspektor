@@ -87,6 +87,11 @@
   display: grid;
   grid-template-columns: 1.618fr 3rem 1fr;
   margin-bottom: 3rem;
+  transition: all 0.3s ease-out;
+
+  &.hide-metadata {
+    grid-template-columns: 1.618fr 0 0;
+  }
 
   section {
     border-top: 1px solid $light-grey-2;
