@@ -42,6 +42,7 @@
     "ember-load-initializers": "^1.0.0",
     "ember-resolver": "^4.0.0",
     "ember-source": "~2.16.0",
+    "json-tree-view": "^0.4.9",
     "loader.js": "^4.2.3",
     "remotestorage-widget": "^1.2.0",
     "remotestoragejs": "^1.0.0"
