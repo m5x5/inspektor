@@ -67,15 +67,15 @@
 
     > header {
       height: 4rem;
-      display: flex;
-      flex-direction: row;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.618fr 3rem 1fr;
 
-      nav.breadcrumb-nav {
-        flex: 1;
-      }
+      // nav.breadcrumb-nav {
+      // }
 
       nav.actions {
-        flex: 1;
+        grid-column-start: 3;
         text-align: right;
       }
     }
