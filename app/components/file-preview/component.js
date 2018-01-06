@@ -1,9 +1,10 @@
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
 
 export default Component.extend({
 
-  storage: null,
+  storage: service(),
 
   classNames: ['file-preview'],
 
@@ -11,6 +12,7 @@ export default Component.extend({
   fileContent: null,
   objectURL: null,
   metaData: null,
+  jsonView: null,
   type: alias('metaData.type'),
   isBinary: alias('metaData.isBinary'),
 
