@@ -1,6 +1,12 @@
 <header>
   {{breadcrumb-nav currentDirPath=currentDirPath}}
   <nav class="actions">
+    {{#if documentIsJSON}}
+      <div class="button-group json-view">
+        <button disabled={{jsonShowTree}} class="{{if jsonShowTree "active"}}" {{action "showJsonTree"}}>tree view</button>
+        <button disabled={{jsonShowSource}} class="{{if jsonShowSource "active"}}" {{action "showJsonSource"}}>source</button>
+      </div>
+    {{/if}}
     <button class="delete" {{action "deleteItem"}}>delete</button>
   </nav>
 </header>

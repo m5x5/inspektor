@@ -1,0 +1,8 @@
+div.button-group {
+  display: inline-block;
+}
+
+div.button-group + button,
+div.button-group + div.button-group {
+  margin-left: 1rem;
+}

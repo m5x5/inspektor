@@ -16,9 +16,11 @@ body {
   padding: 0;
 }
 
+@import "buttons";
+
 @import "components/account-info";
 @import "components/breadcrumb-nav";
 @import "components/categories-nav";
 @import "components/directory-listing";
-@import "components/item-icon";
 @import "components/file-preview";
+@import "components/item-icon";
