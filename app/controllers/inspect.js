@@ -20,7 +20,7 @@ export default Controller.extend({
     return !!this.get('model.documentMetaData.type').match(/application\/json/i);
   }),
 
-  jsonView: 'source',
+  jsonView: 'tree',
   jsonShowTree: computed.equal('jsonView', 'tree'),
   jsonShowSource: computed.equal('jsonView', 'source'),
 

@@ -8,6 +8,14 @@
   {{/if}}
 
   {{#if isText}}
-    <code>{{fileContent}}</code>
+    {{#if isJSON}}
+      {{#if jsonShowTree}}
+        <div id="json-tree-view"></div>
+      {{else}}
+        <code>{{fileContent}}</code>
+      {{/if}}
+    {{else}}
+      <code>{{fileContent}}</code>
+    {{/if}}
   {{/if}}
 {{/if}}

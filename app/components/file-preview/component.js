@@ -1,6 +1,9 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { observer } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import { scheduleOnce } from '@ember/runloop';
+import JSONTreeView from 'npm:json-tree-view';
 
 export default Component.extend({
 
@@ -12,13 +15,12 @@ export default Component.extend({
   fileContent: null,
   objectURL: null,
   metaData: null,
-  jsonView: null,
+  isJSON: null,
   type: alias('metaData.type'),
   isBinary: alias('metaData.isBinary'),
 
   isImage: function() {
-    return this.get('type').match(/^image\/.+$/);
-  }.property('type'),
+    return this.get('type').match(/^image\/.+$/); }.property('type'),
 
   isText: function() {
     return !this.get('isBinary');
@@ -37,8 +39,65 @@ export default Component.extend({
       } else {
         this.set('fileContent', file.data);
       }
+
       this.set('fileLoaded', true);
     });
-  }.on('init')
+  }.on('didInsertElement'),
+
+  onFileLoaded: observer('fileLoaded', function(){
+    if (this.get('fileLoaded') && this.get('isJSON') && this.get('jsonShowTree')) {
+      scheduleOnce('afterRender', this, 'renderJsonTree');
+    }
+  }),
+
+  onJsonViewChanged: observer('jsonShowTree', function(){
+    if (this.get('fileLoaded') && this.get('isJSON') && this.get('jsonShowTree')) {
+      scheduleOnce('afterRender', this, 'renderJsonTree');
+    }
+  }),
+
+  renderJsonTree () {
+    let value = JSON.parse(this.get('fileContent'));
+
+    let view = new JSONTreeView('content', value);
+
+    // Listen for change events
+    view.on('change', function(self, key, oldValue, newValue){
+      console.log('change', key, oldValue, '=>', newValue);
+    });
+    view.on('rename', function(self, key, oldName, newName) {
+      console.log('rename', key, oldName, '=>', newName);
+    });
+    view.on('delete', function(self, key) {
+      console.log('delete', key);
+    });
+    view.on('append', function(self, key, nameOrValue, newValue) {
+      console.log('append', key, nameOrValue, '=>', newValue);
+    });
+    view.on('click', function(self, key, value) {
+      console.log('click', key, '=', value);
+    });
+    view.on('expand', function(self, key, value) {
+      console.log('expand', key, '=', value);
+    });
+    view.on('collapse', function(self, key, value) {
+      console.log('collapse', key, '=', value);
+    });
+    view.on('refresh', function(self, key, value) {
+      console.log('refresh', key, '=', value);
+    });
+
+    document.getElementById('json-tree-view')
+            .appendChild(view.dom);
+
+    window.jsonview = view;
+
+    view.expand(true);
+
+    view.withRootName = false;
+    view.readonly = true;
+
+    this.set('jsonTreeView', view);
+  }
 
 });
