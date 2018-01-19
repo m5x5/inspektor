@@ -9,17 +9,31 @@ div.button-group + div.button-group {
 
 header {
   button {
-    padding: 0.4rem 0.8rem 0.3rem;
+    padding: 0.4rem 0 0.3rem;
     border: 1px solid $dark-grey-2;
     border-radius: 0.2em;
     background-color: #fff;
     color: $dark-grey-2;
     font-size: 0.8rem;
     text-transform: uppercase;
+    width: 3rem;
+
+    svg {
+      height: 1rem;
+      path {
+        fill: $dark-grey-2;
+      }
+    }
 
     &:hover {
       background-color: $dark-grey-2;
       color: #fff;
+
+      svg {
+        path {
+          fill: #fff;
+        }
+      }
     }
 
     &:disabled,
@@ -27,6 +41,12 @@ header {
       border-color: $dark-grey-3;
       background-color: #fff;
       color: $dark-grey-3;
+
+      svg {
+        path {
+          fill: $dark-grey-3;
+        }
+      }
     }
   }
 }

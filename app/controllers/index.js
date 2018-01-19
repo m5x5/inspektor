@@ -65,7 +65,7 @@ export default Controller.extend({
 
     deleteDocuments () {
       const documentCount = this.get('documentCount');
-      const msg = `This will delete all ${documentCount} documents/files in the current directory. Are you sure?`;
+      const msg = `Delete all ${documentCount} documents/files in the current directory?`;
       if (! window.confirm(msg)) { return false; }
 
       const client = this.get('storage.client');

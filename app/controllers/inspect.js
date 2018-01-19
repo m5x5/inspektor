@@ -41,7 +41,7 @@ export default Controller.extend({
     },
 
     deleteItem () {
-      if (window.confirm('Sure?')) {
+      if (window.confirm('Delete?')) {
         this.get('storage.client')
             .remove(this.get('path')).then(() => {
               this.transitionToRoute('index', {

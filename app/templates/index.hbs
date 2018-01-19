@@ -2,7 +2,8 @@
   {{breadcrumb-nav currentDirPath=currentDirPath}}
   <nav class="actions">
     {{#if currentListingContainsDocuments}}
-    <button class="delete-all" {{action "deleteDocuments"}}>delete all</button>
+    <button class="delete-all" title="Delete documents/files"
+            {{action "deleteDocuments"}}>{{partial 'icons/trash'}}</button>
     {{/if}}
   </nav>
 </header>
