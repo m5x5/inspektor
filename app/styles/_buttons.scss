@@ -6,3 +6,27 @@ div.button-group + button,
 div.button-group + div.button-group {
   margin-left: 1rem;
 }
+
+header {
+  button {
+    padding: 0.4rem 0.8rem 0.3rem;
+    border: 1px solid $dark-grey-2;
+    border-radius: 0.2em;
+    background-color: #fff;
+    color: $dark-grey-2;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+
+    &:hover {
+      background-color: $dark-grey-2;
+      color: #fff;
+    }
+
+    &:disabled,
+    &:disabled:hover {
+      border-color: $dark-grey-3;
+      background-color: #fff;
+      color: $dark-grey-3;
+    }
+  }
+}

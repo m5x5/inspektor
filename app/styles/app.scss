@@ -1,11 +1,7 @@
 @import "bourbon";
+@import "resets";
 @import "colors";
 @import "layout";
-
-* {
-  -moz-outline: none;
-  outline: none;
-}
 
 body {
   background-color: white;
