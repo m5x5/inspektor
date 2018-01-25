@@ -8,8 +8,10 @@ div.button-group + div.button-group {
 }
 
 header {
-  button {
+  button, a.button {
+    display: inline-block;
     padding: 0.4rem 0 0.3rem;
+    text-align: center;
     border: 1px solid $dark-grey-2;
     border-radius: 0.2em;
     background-color: #fff;

@@ -4,6 +4,19 @@ moduleFor('controller:inspect', 'Unit | Controller | inspect', {
   needs: ['controller:application', 'service:storage']
 });
 
+test('#publicItemURL', function(assert) {
+  let controller = this.subject();
+
+  controller.set('model', {});
+
+  controller.set('model.documentMetaData', {
+    "name": "banjul-the-gambia",
+    "path": "/documents/notes/banjul-the-gambia",
+  });
+
+  assert.equal(controller.get('publicItemURL'), null, 'returns null when item is not in public folder');
+});
+
 test('#documentIsJSON', function(assert) {
   let controller = this.subject();
 

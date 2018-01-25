@@ -32,7 +32,8 @@ export default Route.extend({
     }).then(metaData => {
       return {
         documentMetaData: metaData,
-        currentDirPath: parentDirPath
+        // documentPublicURL: this.get()
+        currentDirPath: parentDirPath,
       };
     });
   },
