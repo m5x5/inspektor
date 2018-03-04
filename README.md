@@ -24,6 +24,7 @@ contribute and/or give feedback: https://gitlab.com/skddc/inspektor
 * [ ] Copy/move directories (and enclosed files)
 * [ ] Loading indicator for any view change that loads remote data
 * [ ] Logo/icon
+* [ ] Layout/support for small screens
 
 ## Prerequisites
 
