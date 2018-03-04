@@ -13,11 +13,13 @@ contribute and/or give feedback: https://gitlab.com/skddc/inspektor
 * [x] Traverse/inspect directories
 * [x] View document details
 * [x] Render images in details
-* [x] Render text content in details (e.g. JSON)
+* [x] Render text content in details
+* [x] Render JSON content tree view (optional source view)
 * [x] Delete documents
 * [ ] Delete directories
+* [ ] Edit content source
+* [ ] Edit JSON content in tree view
 * [ ] Render other types content (e.g. audio and video)
-* [ ] Edit text content (and save changes)
 * [ ] Copy/move documents
 * [ ] Copy/move directories (and enclosed files)
 * [ ] Loading indicator for any view change that loads remote data
