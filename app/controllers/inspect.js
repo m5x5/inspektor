@@ -14,6 +14,11 @@ export default Controller.extend({
 
   queryParams: ['path'],
 
+  documentIsEditable: computed.not('model.documentMetaData.isBinary'),
+
+  documentShowEditor: false,
+  documentHideEditor: computed.not('documentShowEditor'),
+
   documentIsJSON: computed('model.documentMetaData.type', function(){
     if (isEmpty(this.get('model.documentMetaData'))) { return false; }
 
@@ -44,6 +49,16 @@ export default Controller.extend({
 
     showJsonSource () {
       this.set('jsonView', 'source');
+    },
+
+    showEditor () {
+      this.set('documentShowEditor', true);
+      // TODO init editing
+    },
+
+    cancelEditor () {
+      this.set('documentShowEditor', false);
+      // TODO remove changes from tree/source
     },
 
     toggleMetadata () {

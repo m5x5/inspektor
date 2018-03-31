@@ -38,6 +38,21 @@
         </button>
       </div>
     {{/if}}
+    {{#if documentIsEditable}}
+      <div class="button-group editable">
+        <button disabled={{documentHideEditor}}
+                class="{{if documentHideEditor "active"}}"
+                title="{{if documentShowEditor "Cancel editing"}}"
+                {{action "cancelEditor"}}>
+          {{partial "icons/eye"}}
+        </button>
+        <button disabled={{documentShowEditor}}
+                class="{{if documentShowEditor "active"}}"
+                {{action "showEditor"}}>
+          {{partial "icons/edit"}}
+        </button>
+      </div>
+    {{/if}}
     <button class="delete" title="Delete"
             {{action "deleteItem"}}>{{partial "icons/trash"}}</button>
   </nav>

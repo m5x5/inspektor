@@ -47,7 +47,7 @@ test('#documentIsJSON', function(assert) {
   assert.notOk(controller.get('documentIsJSON'), 'is false when content type is not JSON');
 });
 
-test('jsonView actions/methods', function(assert) {
+test('jsonView - switch between source and tree view', function(assert) {
   let controller = this.subject();
   controller.set('jsonView', null);
 
