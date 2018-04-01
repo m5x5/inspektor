@@ -30,6 +30,28 @@ header {
       }
     }
 
+    &.delete {
+      border-color: $dark-red;
+      color: $dark-red;
+
+      svg {
+        path {
+          fill: $dark-red;
+        }
+      }
+
+      &:hover {
+        background-color: $dark-red;
+        color: #fff;
+
+        svg {
+          path {
+            fill: #fff;
+          }
+        }
+      }
+    }
+
     &:disabled:not(.active),
     &:disabled:not(.active):hover {
       border-color: $dark-grey-3;
