@@ -78,7 +78,11 @@ header {
     }
   }
 
+  button + button,
+  button + .button,
+  .button + .button,
   button + .button-group,
+  .button + .button-group,
   .button-group + button,
   .button-group + .button-group {
     margin-left: 1rem;
