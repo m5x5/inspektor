@@ -48,6 +48,8 @@ export default Route.extend({
     if (isPresent(model)) {
       controller.set('currentDirPath', model.currentDirPath);
     }
+
+    controller.set('documentShowEditor', false);
   }
 
 });
