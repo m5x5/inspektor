@@ -60,8 +60,23 @@ export default Component.extend({
     let value = JSON.parse(this.get('fileContent'));
 
     let view = new JSONTreeView('content', value);
+    // this.attachJsonTreeEventHandlers(view);
 
-    // Listen for change events
+    const containerElement = document.getElementById('json-tree-view');
+    containerElement.innerHTML = ''; // Throw away any existing treeviews
+    containerElement.appendChild(view.dom);
+
+    window.jsonview = view;
+
+    view.expand(true);
+
+    view.withRootName = false;
+    view.readonly = this.get('hideEditor');
+
+    this.set('jsonTreeView', view);
+  },
+
+  attachJsonTreeEventHandlers (view) {
     view.on('change', function(self, key, oldValue, newValue){
       console.log('change', key, oldValue, '=>', newValue);
     });
@@ -86,23 +101,18 @@ export default Component.extend({
     view.on('refresh', function(self, key, value) {
       console.log('refresh', key, '=', value);
     });
-
-    document.getElementById('json-tree-view')
-            .appendChild(view.dom);
-
-    window.jsonview = view;
-
-    view.expand(true);
-
-    view.withRootName = false;
-    view.readonly = this.get('hideEditor');
-
-    this.set('jsonTreeView', view);
   },
 
   onShowEditor: observer('showEditor', function(){
     if (this.get('fileLoaded') && this.get('isJSON') && this.get('jsonShowTree')) {
-      this.set('jsonTreeView.readonly', !this.get('showEditor'));
+      const showEditor = this.get('showEditor');
+
+      if (showEditor) {
+        this.set('jsonTreeView.readonly', false);
+      } else {
+        this.set('jsonTreeView.readonly', true);
+        this.renderJsonTree();
+      }
     }
   }),
 
