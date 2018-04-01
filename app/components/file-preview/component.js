@@ -95,9 +95,46 @@ export default Component.extend({
     view.expand(true);
 
     view.withRootName = false;
-    view.readonly = true;
+    view.readonly = this.get('hideEditor');
 
     this.set('jsonTreeView', view);
+  },
+
+  onShowEditor: observer('showEditor', function(){
+    if (this.get('fileLoaded') && this.get('isJSON') && this.get('jsonShowTree')) {
+      this.set('jsonTreeView.readonly', !this.get('showEditor'));
+    }
+  }),
+
+  actions: {
+
+    saveChanges () {
+      const path = this.get('metaData.path');
+
+      if (this.get('isJSON') && this.get('jsonShowTree')) {
+        const content = JSON.stringify(this.get('jsonTreeView.value'));
+
+        this.get('storage.client')
+            .storeFile('application/json', path, content)
+            .then(etag => {
+              this.setProperties({
+                'metaData.etag': etag,
+                fileContent: content,
+                showEditor: false
+              });
+            }).catch(err => {
+              alert('Failed to update the file. Check the console for more info');
+              console.error(err);
+            });
+      } else {
+        console.warn('not implemented');
+      }
+    },
+
+    cancelEditor () {
+      this.set('showEditor', false);
+    }
+
   }
 
 });

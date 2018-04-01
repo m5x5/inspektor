@@ -53,7 +53,6 @@ export default Controller.extend({
 
     showEditor () {
       this.set('documentShowEditor', true);
-      // TODO init editing
     },
 
     cancelEditor () {

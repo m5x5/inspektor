@@ -42,7 +42,7 @@
       <div class="button-group editable">
         <button disabled={{documentHideEditor}}
                 class="{{if documentHideEditor "active"}}"
-                title="{{if documentShowEditor "Cancel editing"}}"
+                title="{{if documentHideEditor "Cancel editing"}}"
                 {{action "cancelEditor"}}>
           {{partial "icons/eye"}}
         </button>
@@ -62,6 +62,9 @@
   <section class="content">
     {{file-preview metaData=model.documentMetaData
                    isJSON=documentIsJSON
+                   isEditable=documentIsEditableHide
+                   showEditor=documentShowEditor
+                   hideEditor=documentHideEditor
                    jsonShowTree=jsonShowTree
                    jsonShowSource=jsonShowSource}}
   </section>

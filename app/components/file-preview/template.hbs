@@ -18,4 +18,11 @@
       <code>{{fileContent}}</code>
     {{/if}}
   {{/if}}
+
+  {{#if showEditor}}
+    <div class="actions">
+      <button {{action "saveChanges"}}>Save changes</button>
+      <button {{action "cancelEditor"}}>Cancel editing</button>
+    </div>
+  {{/if}}
 {{/if}}
