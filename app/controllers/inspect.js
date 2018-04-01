@@ -14,7 +14,8 @@ export default Controller.extend({
 
   queryParams: ['path'],
 
-  documentIsEditable: computed.not('model.documentMetaData.isBinary'),
+  // documentIsEditable: computed.not('model.documentMetaData.isBinary'),
+  documentIsEditable: alias('documentIsJSON'),
 
   documentShowEditor: false,
   documentHideEditor: computed.not('documentShowEditor'),
