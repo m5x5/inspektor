@@ -123,7 +123,7 @@ export default Component.extend({
                 showEditor: false
               });
             }).catch(err => {
-              alert('Failed to update the file. Check the console for more info');
+              alert('Failed to update the file. Check the console for more info.');
               console.error(err);
             });
       } else {

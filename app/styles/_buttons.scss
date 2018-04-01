@@ -1,24 +1,16 @@
-div.button-group {
-  display: inline-block;
-}
-
-div.button-group + button,
-div.button-group + div.button-group {
-  margin-left: 1rem;
-}
-
 header {
+
   button, a.button {
     display: inline-block;
     padding: 0.4rem 0 0.3rem;
-    text-align: center;
+    width: 3rem;
     border: 1px solid $dark-grey-2;
     border-radius: 0.2em;
     background-color: #fff;
     color: $dark-grey-2;
+    text-align: center;
     font-size: 0.8rem;
     text-transform: uppercase;
-    width: 3rem;
 
     svg {
       height: 1rem;
@@ -38,8 +30,8 @@ header {
       }
     }
 
-    &:disabled,
-    &:disabled:hover {
+    &:disabled:not(.active),
+    &:disabled:not(.active):hover {
       border-color: $dark-grey-3;
       background-color: #fff;
       color: $dark-grey-3;
@@ -50,5 +42,47 @@ header {
         }
       }
     }
+
+    &.active {
+      border-color: lighten($dark-grey-2, 10%);
+      background-color: lighten($dark-grey-2, 10%);
+      color: lighten($dark-grey-2, 10%);
+
+      svg {
+        path {
+          fill: #fff;
+        }
+      }
+    }
   }
+
+  button + .button-group,
+  .button-group + button,
+  .button-group + .button-group {
+    margin-left: 1rem;
+  }
+
+  .button-group {
+    position: relative;
+    display: inline-flex;
+    flex-direction: row;
+
+    button {
+      position: relative;
+      margin-right: 0;
+      flex: 0 1 auto;
+
+      &:not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+
+    button + button {
+      margin-left: -1px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
 }

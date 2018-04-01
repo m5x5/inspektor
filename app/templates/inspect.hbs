@@ -1,26 +1,22 @@
 <header>
   {{breadcrumb-nav currentDirPath=currentDirPath}}
   <nav class="actions">
-    <div class="button-group">
-      {{#if metadataHidden}}
-        <button {{action "toggleMetadata"}}
-                title="Show metadata">
-          {{partial "icons/arrow-from-right"}}
-        </button>
-      {{else}}
-        <button {{action "toggleMetadata"}}
-                title="Hide metadata">
-          {{partial "icons/arrow-to-right"}}
-        </button>
-      {{/if}}
-    </div>
+    {{#if metadataHidden}}
+      <button {{action "toggleMetadata"}}
+              title="Show metadata">
+        {{partial "icons/arrow-from-right"}}
+      </button>
+    {{else}}
+      <button {{action "toggleMetadata"}}
+              title="Hide metadata">
+        {{partial "icons/arrow-to-right"}}
+      </button>
+    {{/if}}
     {{#if publicItemURL}}
-      <div class="button-group">
-        <a class="button" href={{publicItemURL}} target="_blank"
-           title="Open document in new tab">
-            {{partial "icons/share"}}
-        </a>
-      </div>
+      <a class="button" href={{publicItemURL}} target="_blank"
+         title="Open document in new tab">
+          {{partial "icons/share"}}
+      </a>
     {{/if}}
     {{#if documentIsJSON}}
       <div class="button-group json-view">
