@@ -21,8 +21,8 @@
 
   {{#if showEditor}}
     <div class="actions">
-      <button {{action "saveChanges"}}>Save changes</button>
-      <button {{action "cancelEditor"}}>Cancel editing</button>
+      <button {{action "saveChanges"}} disabled={{uploadingChanges}}>Save changes</button>
+      <button {{action "cancelEditor"}} disabled={{uploadingChanges}}>Cancel editing</button>
     </div>
   {{/if}}
 {{/if}}

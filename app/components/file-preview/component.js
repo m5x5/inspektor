@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { observer } from '@ember/object';
+import { computed, observer } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { scheduleOnce } from '@ember/runloop';
 import JSONTreeView from 'npm:json-tree-view';
@@ -12,6 +12,11 @@ export default Component.extend({
   classNames: ['file-preview'],
 
   fileLoaded: false,
+  uploadingChanges: false,
+
+  showEditor: null,
+  hideEditor: computed.not('showEditor'),
+
   fileContent: null,
   objectURL: null,
   metaData: null,
@@ -123,6 +128,7 @@ export default Component.extend({
 
       if (this.get('isJSON') && this.get('jsonShowTree')) {
         const content = JSON.stringify(this.get('jsonTreeView.value'));
+        this.set('uploadingChanges', true);
 
         this.get('storage.client')
             .storeFile('application/json', path, content)
@@ -135,6 +141,8 @@ export default Component.extend({
             }).catch(err => {
               alert('Failed to update the file. Check the console for more info.');
               console.error(err);
+            }).finally(() => {
+              this.set('uploadingChanges', false);
             });
       } else {
         console.warn('not implemented');
