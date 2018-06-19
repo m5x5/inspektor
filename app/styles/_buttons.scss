@@ -1,3 +1,44 @@
+button {
+  font-family: Open Sans, sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  background-color: $dark-blue;
+  border: 1px solid $dark-blue;
+
+  &:hover, &:active {
+    background-color: lighten($dark-blue, 5%);
+  }
+
+  &.delete {
+    background-color: transparent;
+    border-color: $dark-red;
+    color: $dark-red;
+    svg { path { fill: $dark-red; }
+    }
+
+    &:hover {
+      background-color: $dark-red;
+      color: #fff;
+      svg { path { fill: #fff; } }
+    }
+  }
+
+  &.primary {
+    // main button
+  }
+
+  &.secondary {
+    background-color: transparent;
+    color: $dark-blue;
+
+    &:hover {
+      background-color: $dark-blue;
+      color: #fff;
+      svg { path { fill: #fff; } }
+    }
+  }
+}
+
 header {
 
   button, a.button {
@@ -9,14 +50,11 @@ header {
     background-color: #fff;
     color: $dark-grey-2;
     text-align: center;
-    font-size: 0.8rem;
     text-transform: uppercase;
 
     svg {
       height: 1rem;
-      path {
-        fill: $dark-grey-2;
-      }
+      path { fill: $dark-grey-2; }
     }
 
     &:hover {
@@ -26,28 +64,6 @@ header {
       svg {
         path {
           fill: #fff;
-        }
-      }
-    }
-
-    &.delete {
-      border-color: $dark-red;
-      color: $dark-red;
-
-      svg {
-        path {
-          fill: $dark-red;
-        }
-      }
-
-      &:hover {
-        background-color: $dark-red;
-        color: #fff;
-
-        svg {
-          path {
-            fill: #fff;
-          }
         }
       }
     }
@@ -70,11 +86,7 @@ header {
       background-color: lighten($dark-grey-2, 10%);
       color: lighten($dark-grey-2, 10%);
 
-      svg {
-        path {
-          fill: #fff;
-        }
-      }
+      svg { path { fill: #fff; } }
     }
   }
 
@@ -115,7 +127,9 @@ header {
 
 main section.content {
   button {
-    padding: 0.3rem 0.5rem;
+    font-size: 0.86rem;
+    padding: 0.4rem 1rem;
+    border-radius: 3px;
   }
 
   button + button {
