@@ -16,9 +16,9 @@ contribute and/or give feedback: https://gitlab.com/skddc/inspektor
 * [x] Render text content in details
 * [x] Render JSON content tree view (optional source view)
 * [x] Delete documents
+* [x] Edit JSON content in tree view
 * [ ] Delete directories
 * [ ] Edit content source
-* [ ] Edit JSON content in tree view
 * [ ] Render other types content (e.g. audio and video)
 * [ ] Copy/move documents
 * [ ] Copy/move directories (and enclosed files)
