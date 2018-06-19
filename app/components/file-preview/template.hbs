@@ -1,9 +1,16 @@
 {{#if fileLoaded}}
   {{#if isBinary}}
+    {{#if isUnkownBinary}}
+      <p>No preview available for this content type.</p>
+    {{/if}}
     {{#if isImage}}
       <img src={{objectURL}} alt={{metaData.name}}>
-    {{else}}
-      <p>No preview available for this content type.</p>
+    {{/if}}
+    {{#if isAudio}}
+      <audio src={{objectURL}} controls />
+    {{/if}}
+    {{#if isVideo}}
+      <video src={{objectURL}} controls />
     {{/if}}
   {{/if}}
 

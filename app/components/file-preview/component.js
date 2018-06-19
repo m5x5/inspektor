@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { computed, observer } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { observer } from '@ember/object';
+import { alias, none, not } from '@ember/object/computed';
 import { scheduleOnce } from '@ember/runloop';
 import JSONTreeView from 'npm:json-tree-view';
 
@@ -15,7 +15,7 @@ export default Component.extend({
   uploadingChanges: false,
 
   showEditor: null,
-  hideEditor: computed.not('showEditor'),
+  hideEditor: not('showEditor'),
 
   fileContent: null,
   objectURL: null,
@@ -24,8 +24,19 @@ export default Component.extend({
   type: alias('metaData.type'),
   isBinary: alias('metaData.isBinary'),
 
+  isUnknownBinary: none('isImage', 'isAudio', 'isVideo'),
+
   isImage: function() {
-    return this.get('type').match(/^image\/.+$/); }.property('type'),
+    return this.get('type').match(/^image\/.+$/);
+  }.property('type'),
+
+  isAudio: function() {
+    return this.get('type').match(/^audio\/.+$/);
+  }.property('type'),
+
+  isVideo: function() {
+    return this.get('type').match(/^video\/.+$/);
+  }.property('type'),
 
   isText: function() {
     return !this.get('isBinary');
@@ -34,8 +45,16 @@ export default Component.extend({
   loadFile: function() {
     let path = this.get('metaData.path');
 
+    if (this.get('isAudio') || this.get('isVideo')) {
+      this.set('fileLoaded', true);
+      this.set('objectURL', this.get('storage.client')
+                                .getItemURL(path));
+      return;
+    }
+
     // TODO don't fetch is size above certain limit
 
+    console.debug(`[file-preview] Loading file ${this.get('metaData.name')}`)
     this.get('storage.client').getFile(path).then(file => {
       if (this.get('isImage')) {
         let view = new window.Uint8Array(file.data);

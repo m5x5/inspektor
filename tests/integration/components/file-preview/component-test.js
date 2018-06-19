@@ -6,10 +6,17 @@ moduleForComponent('file-preview', 'Integration | Component | file preview', {
 });
 
 test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  this.set('metaData', {
+    etag: "714148227",
+    isBinary: false,
+    isFolder: false,
+    name: "fra-pdx",
+    path: "trips/2018/06/19/fra-pdx",
+    size: 92086791,
+    type: "application/json"
+  });
 
-  this.render(hbs`{{file-preview}}`);
+  this.render(hbs`{{file-preview metaData=metaData}}`);
 
   assert.equal(this.$().text().trim(), '');
 });
