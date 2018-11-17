@@ -1,6 +1,6 @@
 {
   "name": "inspektor",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "private": true,
   "description": "Inspect the contents of your remote storage",
   "license": "MIT",
