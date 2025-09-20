@@ -1,4 +1,5 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('file-preview', 'Integration | Component | file preview', {
@@ -6,6 +7,24 @@ moduleForComponent('file-preview', 'Integration | Component | file preview', {
 });
 
 test('it renders', function(assert) {
+  // Stub the storage service to avoid network/errors during render
+  const StubStorage = Service.extend({
+    client: null,
+    init() {
+      this._super(...arguments);
+      this.set('client', {
+        getFile() {
+          // Return a pending promise so fileLoaded stays false
+          return new Promise(() => {});
+        },
+        getItemURL() {
+          return 'blob:stub';
+        }
+      });
+    }
+  });
+  this.register('service:storage', StubStorage);
+
   this.set('metaData', {
     etag: "714148227",
     isBinary: false,

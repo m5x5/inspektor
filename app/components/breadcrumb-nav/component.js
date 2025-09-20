@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import EmberObject from '@ember/object';
+import { computed } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 
 export default Component.extend({
@@ -9,7 +10,7 @@ export default Component.extend({
 
   currentDirPath: null,
 
-  linkItems: function() {
+  linkItems: computed('currentDirPath', function() {
     let currentDirPath = this.get('currentDirPath');
     if (isEmpty(currentDirPath)) { return []; }
     let linkItems = [];
@@ -27,6 +28,6 @@ export default Component.extend({
     });
 
     return linkItems;
-  }.property('currentDirPath')
+  })
 
 });

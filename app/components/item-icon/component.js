@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 
 export default Component.extend({
 
@@ -8,11 +9,11 @@ export default Component.extend({
 
   type: null,
 
-  isFolder: function() {
+  isFolder: computed('type', function() {
     return this.get('type') === 'folder';
-  }.property('type'),
+  }),
 
-  src: function() {
+  src: computed(function() {
     let prefix = '/img/file-icons/';
     let type = this.get('type');
     let filename;
@@ -28,6 +29,6 @@ export default Component.extend({
     }
 
     return prefix + filename;
-  }.property()
+  })
 
 });

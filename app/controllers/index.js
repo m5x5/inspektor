@@ -17,13 +17,13 @@ export default Controller.extend({
 
   queryParams: ['path'],
 
-  currentListing: function () {
+  currentListing: computed('rootListing.[]', 'model.[]', function () {
     if (isPresent(this.get('model.currentListing'))) {
       return this.get('model.currentListing').sortBy('name');
     } else {
       return this.get('rootListing');
     }
-  }.property('rootListing.[]', 'model.[]'),
+  }),
 
   documents: computed('currentListing.[]', function () {
     if (isEmpty(this.get('currentListing'))) { return []; }

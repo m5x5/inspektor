@@ -1,6 +1,7 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { computed, observer } from '@ember/object';
+import { observer } from '@ember/object';
+import { not } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
 import RemoteStorage from 'npm:remotestoragejs';
 import Widget from 'npm:remotestorage-widget';
@@ -14,11 +15,12 @@ export default Service.extend({
   connected: false,
   unauthorized: false,
   userAddress: null,
-  disconnected: computed.not('connected'),
+  disconnected: not('connected'),
   client: null,
   rootListing: null,
 
-  setup: function() {
+  init() {
+    this._super(...arguments);
     const rs = new RemoteStorage({
       cache: false
     });
@@ -76,7 +78,7 @@ export default Service.extend({
     this.set('rs', rs);
     this.set('widget', widget);
     this.set('client', rs.scope('/'));
-  }.on('init'),
+  },
 
   connectedChange: observer('connected', function() {
     if (this.get('connected')) {

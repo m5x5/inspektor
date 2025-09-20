@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import BodyClassMixin from 'ember-body-class/mixins/body-class';
+import BodyClassMixin from 'inspektor/mixins/body-class';
 
 export default Route.extend(BodyClassMixin, {
 

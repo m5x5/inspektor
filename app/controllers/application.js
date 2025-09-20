@@ -19,7 +19,7 @@ export default Controller.extend({
     return this.get('connected') ? 'connected' : 'disconnected';
   }),
 
-  categories: function() {
+  categories: computed('rootListing', function() {
     let categories = [];
     let rootListing = this.get('rootListing');
     if (isEmpty(rootListing)) { return categories; }
@@ -35,7 +35,7 @@ export default Controller.extend({
     });
 
     return categories;
-  }.property('rootListing'),
+  }),
 
   connectedChange: observer('connected', function() {
     if (this.get('connected')) {

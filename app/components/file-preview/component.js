@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { observer } from '@ember/object';
+import { observer, computed } from '@ember/object';
 import { alias, none, not } from '@ember/object/computed';
 import { scheduleOnce } from '@ember/runloop';
 import JSONTreeView from 'npm:json-tree-view';
@@ -26,23 +26,28 @@ export default Component.extend({
 
   isUnknownBinary: none('isImage', 'isAudio', 'isVideo'),
 
-  isImage: function() {
+  isImage: computed('type', function() {
     return this.get('type').match(/^image\/.+$/);
-  }.property('type'),
+  }),
 
-  isAudio: function() {
+  isAudio: computed('type', function() {
     return this.get('type').match(/^audio\/.+$/);
-  }.property('type'),
+  }),
 
-  isVideo: function() {
+  isVideo: computed('type', function() {
     return this.get('type').match(/^video\/.+$/);
-  }.property('type'),
+  }),
 
-  isText: function() {
+  isText: computed('isBinary', function() {
     return !this.get('isBinary');
-  }.property('isBinary'),
+  }),
 
-  loadFile: function() {
+  didInsertElement() {
+    this._super(...arguments);
+    this.loadFile();
+  },
+
+  loadFile() {
     let path = this.get('metaData.path');
 
     if (this.get('isAudio') || this.get('isVideo')) {
@@ -66,7 +71,7 @@ export default Component.extend({
 
       this.set('fileLoaded', true);
     });
-  }.on('didInsertElement'),
+  },
 
   onFileLoaded: observer('fileLoaded', function(){
     if (this.get('fileLoaded') && this.get('isJSON') && this.get('jsonShowTree')) {
