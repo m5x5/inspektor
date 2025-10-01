@@ -1,13 +1,13 @@
 <header>
-  {{breadcrumb-nav currentDirPath=currentDirPath}}
+  <BreadcrumbNav @currentDirPath={{this.currentDirPath}} />
   <nav class="actions">
-    {{#if currentListingContainsDocuments}}
+    {{#if this.currentListingContainsDocuments}}
     <button class="delete-all" title="Delete documents/files"
-            {{action "deleteDocuments"}}>{{partial 'icons/trash'}}</button>
+            {{on 'click' this.deleteDocuments}}><Icons::Trash /></button>
     {{/if}}
   </nav>
 </header>
 
-{{#if currentListing}}
-  {{directory-listing items=currentListing}}
+{{#if this.currentListing}}
+  <DirectoryListing @items={{this.currentListing}} />
 {{/if}}

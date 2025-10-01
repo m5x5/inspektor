@@ -1,40 +1,40 @@
-{{#if fileLoaded}}
-  {{#if isBinary}}
-    {{#if isUnkownBinary}}
+{{#if this.fileLoaded}}
+  {{#if this.isBinary}}
+    {{#if this.isUnkownBinary}}
       <p>No preview available for this content type.</p>
     {{/if}}
-    {{#if isImage}}
-      <img src={{objectURL}} alt={{metaData.name}}>
+    {{#if this.isImage}}
+      <img src={{this.objectURL}} alt={{this.metaData.name}}>
     {{/if}}
-    {{#if isAudio}}
-      <audio src={{objectURL}} controls />
+    {{#if this.isAudio}}
+      <audio src={{this.objectURL}} controls />
     {{/if}}
-    {{#if isVideo}}
-      <video src={{objectURL}} controls />
+    {{#if this.isVideo}}
+      <video src={{this.objectURL}} controls />
     {{/if}}
   {{/if}}
 
-  {{#if isText}}
-    {{#if isJSON}}
-      {{#if jsonShowTree}}
+  {{#if this.isText}}
+    {{#if this.isJSON}}
+      {{#if this.jsonShowTree}}
         <div id="json-tree-view"></div>
       {{else}}
-        <code>{{fileContent}}</code>
+        <code>{{this.fileContent}}</code>
       {{/if}}
     {{else}}
-      <code>{{fileContent}}</code>
+      <code>{{this.fileContent}}</code>
     {{/if}}
   {{/if}}
 
-  {{#if showEditor}}
+  {{#if this.showEditor}}
     <div class="actions">
-      <button {{action "saveChanges"}}
-              disabled={{uploadingChanges}}
+      <button {{on 'click' this.saveChanges}}
+              disabled={{this.uploadingChanges}}
               class="primary">
         Save changes
       </button>
-      <button {{action "cancelEditor"}}
-              disabled={{uploadingChanges}}
+      <button {{on 'click' this.cancelEditor}}
+              disabled={{this.uploadingChanges}}
               class="secondary">
         Cancel editing
       </button>

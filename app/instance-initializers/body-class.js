@@ -2,11 +2,9 @@
 
 import Route from '@ember/routing/route';
 import { on } from '@ember/object/evented';
-import $ from 'jquery';
+// Removed jQuery usage to be Ember 4+ compatible
 
 export function initialize(instance) {
-  // Skip when jQuery is not present (e.g., FastBoot)
-  if (!$) { return; }
 
   let config;
   if (typeof instance.resolveRegistration === 'function') {
@@ -18,6 +16,18 @@ export function initialize(instance) {
   let includeRouteName = true;
   if (config['ember-body-class'] && config['ember-body-class'].includeRouteName === false) {
     includeRouteName = false;
+  }
+
+  function addBodyClass(klass) {
+    if (typeof document !== 'undefined' && document.body) {
+      document.body.classList.add(klass);
+    }
+  }
+
+  function removeBodyClass(klass) {
+    if (typeof document !== 'undefined' && document.body) {
+      document.body.classList.remove(klass);
+    }
   }
 
   Route.reopen({
@@ -38,31 +48,29 @@ export function initialize(instance) {
     },
 
     addClasses: on('activate', function() {
-      const $body = $('body');
       ['bodyClasses', 'classNames'].forEach((classes) => {
         (this.get(classes) || []).forEach(function(klass) {
-          $body.addClass(klass);
+          addBodyClass(klass);
         });
       });
 
       if (includeRouteName) {
         this._getRouteDepthClasses().forEach((depthClass) => {
-          $body.addClass(depthClass);
+          addBodyClass(depthClass);
         });
       }
     }),
 
     removeClasses: on('deactivate', function() {
-      const $body = $('body');
       ['bodyClasses', 'classNames'].forEach((classes) => {
         (this.get(classes) || []).forEach(function(klass) {
-          $body.removeClass(klass);
+          removeBodyClass(klass);
         });
       });
 
       if (includeRouteName) {
         this._getRouteDepthClasses().forEach((depthClass) => {
-          $body.removeClass(depthClass);
+          removeBodyClass(depthClass);
         });
       }
     }),

@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { isEmpty, isPresent } from '@ember/utils';
 import { later } from '@ember/runloop';
 import { hash, Promise } from 'rsvp';
@@ -7,6 +7,7 @@ import { hash, Promise } from 'rsvp';
 export default Route.extend({
 
   storage: service(),
+  router: service(),
 
   queryParams: {
     path: {
@@ -14,12 +15,11 @@ export default Route.extend({
     }
   },
 
-  beforeModel() {
-    return this.waitForConnectionState().then(() => {
-      if (this.get('storage.disconnected')) {
-        this.transitionTo('connect');
-      }
-    });
+  async beforeModel() {
+    await this.waitForConnectionState();
+    if (this.storage.disconnected) {
+      this.router.transitionTo('connect');
+    }
   },
 
   model(params) {
@@ -30,7 +30,7 @@ export default Route.extend({
     if (path.substr(-1) !== '/') { path += '/'; }
 
     return hash({
-      currentListing: this.get('storage').fetchListing(path),
+      currentListing: this.storage.fetchListing(path),
       currentDirPath: path
     });
   },
@@ -38,15 +38,15 @@ export default Route.extend({
   setupController(controller, model) {
     this._super(controller, model);
 
-    if (isEmpty(this.get('storage.categories')) && this.get('storage.connected')) {
-      this.get('storage').fetchRootListing();
+    if (isEmpty(this.storage.categories) && this.storage.connected) {
+      this.storage.fetchRootListing();
     }
 
     if (isPresent(model)) {
       controller.set('currentDirPath', model.currentDirPath);
 
       if (isEmpty(model.currentListing)) {
-        this.transitionTo('index', {
+        this.router.transitionTo('index', {
           queryParams: { path: controller.get('parentDir') }
         });
       }
@@ -54,16 +54,14 @@ export default Route.extend({
   },
 
   waitForConnectionState() {
-    let self = this;
-
     return new Promise(resolve => {
-      function checkConnectingDone() {
-        if (self.get('storage.connecting')) {
+      const checkConnectingDone = () => {
+        if (this.storage.connecting) {
           later(checkConnectingDone, 20);
         } else {
           resolve();
         }
-      }
+      };
       checkConnectingDone();
     });
   }

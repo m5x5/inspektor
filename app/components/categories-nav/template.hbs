@@ -1,7 +1,7 @@
-{{#if categories}}
+{{#if this.categories}}
   <nav>
     <ul>
-      {{#each categories as |category|}}
+      {{#each this.categories as |category|}}
       <li>{{#link-to "index" (query-params path=category.path)}}{{category.name}}{{/link-to}}</li>
       {{/each}}
     </ul>

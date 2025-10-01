@@ -5,6 +5,7 @@ import BodyClassMixin from 'inspektor/mixins/body-class';
 export default Route.extend(BodyClassMixin, {
 
   storage: service(),
+  router: service(),
 
   beforeModel () {
     this.get('storage.rs').on('error', (error) => {
@@ -32,7 +33,7 @@ export default Route.extend(BodyClassMixin, {
       connected: false
     });
 
-    this.transitionTo('connect');
+    this.router.transitionTo('connect');
   }
 
 });

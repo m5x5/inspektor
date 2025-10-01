@@ -9,6 +9,15 @@ module.exports = function(defaults) {
       includePaths: [
         'node_modules/bourbon/core'
       ]
+    },
+    autoImport: {
+      webpack: {
+        resolve: {
+          fallback: {
+            util: require.resolve('util/')
+          }
+        }
+      }
     }
   });
 

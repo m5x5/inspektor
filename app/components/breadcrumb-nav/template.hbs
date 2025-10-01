@@ -1,4 +1,4 @@
 <span class="node">{{#link-to "index" (query-params path='/')}}Home{{/link-to}}</span>
-{{#each linkItems as |item|}}
+{{#each this.linkItems as |item|}}
 <span class="node">{{#link-to "index" (query-params path=item.path)}}{{item.name}}{{/link-to}}</span>
 {{/each}}

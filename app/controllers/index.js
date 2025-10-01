@@ -19,7 +19,14 @@ export default Controller.extend({
 
   currentListing: computed('rootListing.[]', 'model.[]', function () {
     if (isPresent(this.get('model.currentListing'))) {
-      return this.get('model.currentListing').sortBy('name');
+      const listing = this.get('model.currentListing');
+      if (Array.isArray(listing) && listing.sortBy) {
+        return listing.sortBy('name');
+      } else if (Array.isArray(listing)) {
+        return listing.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+      } else {
+        return listing;
+      }
     } else {
       return this.get('rootListing');
     }
@@ -28,8 +35,12 @@ export default Controller.extend({
   documents: computed('currentListing.[]', function () {
     if (isEmpty(this.get('currentListing'))) { return []; }
 
-    return this.get('currentListing')
-               .reject(item => item.path.substr(-1) === '/');
+    const currentListing = this.get('currentListing');
+    if (Array.isArray(currentListing)) {
+      return currentListing.filter(item => item.path.substr(-1) !== '/');
+    } else {
+      return [];
+    }
   }),
 
   currentListingContainsDocuments: computed('documents.[]', function () {
@@ -47,7 +58,7 @@ export default Controller.extend({
   parentDir: computed('currentDirPath', function () {
     const dirs = this.get('currentDirPath')
                      .split('/')
-                     .reject(p => isEmpty(p));
+                     .filter(p => !isEmpty(p));
 
     return dirs.splice(0, dirs.length - 1).join('/') + '/';
   }),

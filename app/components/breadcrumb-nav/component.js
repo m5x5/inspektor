@@ -16,7 +16,7 @@ export default Component.extend({
     let linkItems = [];
 
     let dirs = currentDirPath.split('/')
-                             .reject(i => isEmpty(i));
+                             .filter(i => !isEmpty(i));
 
     dirs.forEach(dirname => {
       let path = currentDirPath.match(`(.*${dirname})/`)[0];

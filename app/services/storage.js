@@ -3,8 +3,8 @@ import Service from '@ember/service';
 import { observer } from '@ember/object';
 import { not } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
-import RemoteStorage from 'npm:remotestoragejs';
-import Widget from 'npm:remotestorage-widget';
+import RemoteStorage from 'remotestoragejs';
+import Widget from 'remotestorage-widget';
 import simpleContentType from 'inspektor/utils/simple-content-type';
 
 export default Service.extend({
@@ -97,7 +97,13 @@ export default Service.extend({
 
   fetchRootListing() {
     this.fetchListing('').then(items => {
-      this.set('rootListing', items.sortBy('name'));
+      if (Array.isArray(items) && items.sortBy) {
+        this.set('rootListing', items.sortBy('name'));
+      } else if (Array.isArray(items)) {
+        this.set('rootListing', items.sort((a, b) => (a.name || '').localeCompare(b.name || '')));
+      } else {
+        this.set('rootListing', items);
+      }
     });
   },
 

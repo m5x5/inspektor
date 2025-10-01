@@ -6,11 +6,12 @@ import { Promise } from 'rsvp';
 export default Route.extend({
 
   storage: service(),
+  router: service(),
 
   beforeModel() {
     return this.waitForConnectionState().then(() => {
       if (this.get('storage.connected')) {
-        this.transitionTo('index');
+        this.router.transitionTo('index');
       }
     });
   },

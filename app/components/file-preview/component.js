@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import { observer, computed } from '@ember/object';
 import { alias, none, not } from '@ember/object/computed';
 import { scheduleOnce } from '@ember/runloop';
-import JSONTreeView from 'npm:json-tree-view';
+import JSONTreeView from 'json-tree-view';
 
 export default Component.extend({
 

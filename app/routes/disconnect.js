@@ -4,10 +4,11 @@ import { inject as service } from '@ember/service';
 export default Route.extend({
 
   storage: service(),
+  router: service(),
 
   beforeModel() {
     this.get('storage.rs').disconnect();
-    this.transitionTo('connect');
+    this.router.transitionTo('connect');
   }
 
 });

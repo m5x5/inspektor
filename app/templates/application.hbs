@@ -1,11 +1,13 @@
-<div id="app-container" class={{connectedClass}}>
+<div class="ember-view">
+<div id="app-container" class={{this.connectedClass}}>
   <aside>
-    {{#if connected}}
-      {{account-info userAddress=userAddress}}
-      {{categories-nav categories=categories}}
+    {{#if this.connected}}
+      <AccountInfo @userAddress={{this.userAddress}} />
+      <CategoriesNav @categories={{this.categories}} />
     {{/if}}
   </aside>
   <main>
     {{outlet}}
   </main>
+</div>
 </div>

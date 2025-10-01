@@ -10,9 +10,14 @@ export default Component.extend({
   itemsSorted: computed('items', function() {
     let items = this.get('items');
 
+    if (!Array.isArray(items)) {
+      return [];
+    }
+
     // folders first
-    return items.reject(i => i.type !== 'folder')
-                .concat(items.reject(i => i.type === 'folder'));
+    const folders = items.filter(i => i.type === 'folder');
+    const files = items.filter(i => i.type !== 'folder');
+    return folders.concat(files);
   })
 
 });
