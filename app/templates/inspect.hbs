@@ -2,32 +2,32 @@
   <BreadcrumbNav @currentDirPath={{this.currentDirPath}} />
   <nav class="actions">
     {{#if this.metadataHidden}}
-      <button {{on 'click' this.toggleMetadata}}
+      <button class="button button-small button-fill" {{on 'click' this.toggleMetadata}}
               title="Show metadata">
         <Icons::ArrowFromRight />
       </button>
     {{else}}
-      <button {{on 'click' this.toggleMetadata}}
+      <button class="button button-small button-fill" {{on 'click' this.toggleMetadata}}
               title="Hide metadata">
         <Icons::ArrowToRight />
       </button>
     {{/if}}
     {{#if this.publicItemURL}}
-      <a class="button" href={{this.publicItemURL}} target="_blank"
+      <a class="button button-small button-fill" href={{this.publicItemURL}} target="_blank"
          title="Open document in new tab">
           <Icons::Share />
       </a>
     {{/if}}
     {{#if this.documentIsJSON}}
-      <div class="button-group json-view">
+      <div class="segmented segmented-strong button-group json-view">
         <button disabled={{this.jsonShowTree}}
-                class="{{if this.jsonShowTree "active"}}"
+                class="button button-small {{if this.jsonShowTree "button-active"}}"
                 title="Tree view"
                 {{on 'click' this.showJsonTree}}>
           <Icons::List />
         </button>
         <button disabled={{this.jsonShowSource}}
-                class="{{if this.jsonShowSource "active"}}"
+                class="button button-small {{if this.jsonShowSource "button-active"}}"
                 title="Show source"
                 {{on 'click' this.showJsonSource}}>
           <Icons::Code />
@@ -35,21 +35,21 @@
       </div>
     {{/if}}
     {{#if this.documentIsEditable}}
-      <div class="button-group editable">
+      <div class="segmented segmented-strong button-group editable">
         <button disabled={{this.documentHideEditor}}
-                class="{{if this.documentHideEditor "active"}}"
+                class="button button-small {{if this.documentHideEditor "button-active"}}"
                 title="{{if this.documentHideEditor "Cancel editing"}}"
                 {{on 'click' this.cancelEditor}}>
           <Icons::Eye />
         </button>
         <button disabled={{this.documentShowEditor}}
-                class="{{if this.documentShowEditor "active"}}"
+                class="button button-small {{if this.documentShowEditor "button-active"}}"
                 {{on 'click' this.showEditor}}>
           <Icons::Edit />
         </button>
       </div>
     {{/if}}
-    <button class="delete" title="Delete"
+    <button class="button button-small button-outline color-red delete" title="Delete"
             {{on 'click' this.deleteItem}}><Icons::Trash /></button>
   </nav>
 </header>
@@ -66,7 +66,7 @@
     />
   </section>
 
-  {{#unless metadataHidden}}
+  {{#unless this.metadataHidden}}
     <section class="meta">
       <dl>
         <dt>Name</dt>

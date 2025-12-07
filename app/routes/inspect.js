@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { isEmpty, isPresent } from '@ember/utils';
 
 export default Route.extend({
@@ -27,7 +27,7 @@ export default Route.extend({
 
     // FIXME do a HEAD request instead of fetching parent listing
     return this.get('storage').fetchListing(parentDirPath).then(listing => {
-      let metaData = listing.findBy('name', documentName);
+      let metaData = listing.find(item => item.name === documentName);
       return metaData;
     }).then(metaData => {
       return {

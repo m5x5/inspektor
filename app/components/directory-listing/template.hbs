@@ -1,21 +1,21 @@
 <ul class="listing">
-  {{#each itemsSorted as |item|}}
+  {{#each this.itemsSorted as |item|}}
   <li>
     {{#if item.isFolder}}
-      {{#link-to "index" (query-params path=item.path)}}
+      <LinkTo @route="index" @query={{hash path=item.path}}>
         <span class="icon"><ItemIcon @type={{item.type}} /></span>
         <span class="name">{{item.name}}</span>
         <span class="size"></span>
         <span class="type">{{item.type}}</span>
-      {{/link-to}}
+      </LinkTo>
     {{else}}
       <!-- TODO link to item -->
-      {{#link-to "inspect" (query-params path=item.path)}}
+      <LinkTo @route="inspect" @query={{hash path=item.path}}>
         <span class="icon"><ItemIcon @type={{item.type}} /></span>
         <span class="name">{{item.name}}</span>
         <span class="size">{{human-file-size item.size}}</span>
         <span class="type">{{item.type}}</span>
-      {{/link-to}}
+      </LinkTo>
     {{/if}}
   </li>
   {{/each}}

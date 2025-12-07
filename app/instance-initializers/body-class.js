@@ -2,16 +2,10 @@
 
 import Route from '@ember/routing/route';
 import { on } from '@ember/object/evented';
+import config from 'inspektor/config/environment';
 // Removed jQuery usage to be Ember 4+ compatible
 
 export function initialize(instance) {
-
-  let config;
-  if (typeof instance.resolveRegistration === 'function') {
-    config = instance.resolveRegistration('config:environment');
-  } else {
-    config = instance.container.lookupFactory('config:environment');
-  }
 
   let includeRouteName = true;
   if (config['ember-body-class'] && config['ember-body-class'].includeRouteName === false) {

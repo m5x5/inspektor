@@ -1,10 +1,14 @@
 <div class="ember-view">
 <div id="app-container" class={{this.connectedClass}}>
   <aside>
-    {{#if this.connected}}
-      <AccountInfo @userAddress={{this.userAddress}} />
+  {{#if this.connected}}
+      <AccountInfo
+        @userAddress={{this.userAddress}}
+        @onDownloadAll={{this.downloadAllData}}
+        @isDownloading={{this.isDownloading}}
+      />
       <CategoriesNav @categories={{this.categories}} />
-    {{/if}}
+  {{/if}}
   </aside>
   <main>
     {{outlet}}

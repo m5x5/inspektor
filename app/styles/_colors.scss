@@ -1,10 +1,10 @@
-$dark-grey-1: #2a3743;
-$dark-grey-2: #344453;
-$dark-grey-3: #aaa;
-$light-grey-1: #b5c3d1;
-$light-grey-2: #ececec;
-$dark-red: #8b0000;
-$dark-blue: #0067c7;
+$dark-grey-1: #2a3743 !default;
+$dark-grey-2: #344453 !default;
+$dark-grey-3: #aaa !default;
+$light-grey-1: #b5c3d1 !default;
+$light-grey-2: #ececec !default;
+$dark-red: #8b0000 !default;
+$dark-blue: #0067c7 !default;
 
 body {
   background-color: #fff;
@@ -23,6 +23,9 @@ body {
       text-decoration: none;
       &:hover {
         color: #fff;
+      }
+      &:focus {
+        outline: 2px solid $dark-blue;
       }
     }
   }

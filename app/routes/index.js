@@ -25,7 +25,12 @@ export default Route.extend({
   model(params) {
     let path = params.path;
 
-    if (isEmpty(params.path)) { return null; }
+    if (isEmpty(params.path)) {
+      return hash({
+        currentListing: this.storage.rootListing,
+        currentDirPath: '/'
+      });
+    }
 
     if (path.substr(-1) !== '/') { path += '/'; }
 

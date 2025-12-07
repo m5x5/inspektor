@@ -1,12 +1,13 @@
 import Component from '@ember/component';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { observer, computed } from '@ember/object';
 import { alias, none, not } from '@ember/object/computed';
 import { scheduleOnce } from '@ember/runloop';
 import JSONTreeView from 'json-tree-view';
+import layout from './template';
 
 export default Component.extend({
-
+  layout,
   storage: service(),
 
   classNames: ['file-preview'],
@@ -41,6 +42,12 @@ export default Component.extend({
   isText: computed('isBinary', function() {
     return !this.get('isBinary');
   }),
+
+  init() {
+    this._super(...arguments);
+    this.saveChanges = this.saveChanges.bind(this);
+    this.cancelEditor = this.cancelEditor.bind(this);
+  },
 
   didInsertElement() {
     this._super(...arguments);
@@ -92,6 +99,10 @@ export default Component.extend({
     // this.attachJsonTreeEventHandlers(view);
 
     const containerElement = document.getElementById('json-tree-view');
+    if (!containerElement) {
+      console.warn('[file-preview] json-tree-view element not found');
+      return;
+    }
     containerElement.innerHTML = ''; // Throw away any existing treeviews
     containerElement.appendChild(view.dom);
 
@@ -145,38 +156,34 @@ export default Component.extend({
     }
   }),
 
-  actions: {
+  saveChanges() {
+    const path = this.get('metaData.path');
 
-    saveChanges () {
-      const path = this.get('metaData.path');
+    if (this.get('isJSON') && this.get('jsonShowTree')) {
+      const content = JSON.stringify(this.get('jsonTreeView.value'));
+      this.set('uploadingChanges', true);
 
-      if (this.get('isJSON') && this.get('jsonShowTree')) {
-        const content = JSON.stringify(this.get('jsonTreeView.value'));
-        this.set('uploadingChanges', true);
-
-        this.get('storage.client')
-            .storeFile('application/json', path, content)
-            .then(etag => {
-              this.setProperties({
-                'metaData.etag': etag,
-                fileContent: content,
-                showEditor: false
-              });
-            }).catch(err => {
-              alert('Failed to update the file. Check the console for more info.');
-              console.error(err);
-            }).finally(() => {
-              this.set('uploadingChanges', false);
+      this.get('storage.client')
+          .storeFile('application/json', path, content)
+          .then(etag => {
+            this.setProperties({
+              'metaData.etag': etag,
+              fileContent: content,
+              showEditor: false
             });
-      } else {
-        console.warn('not implemented');
-      }
-    },
-
-    cancelEditor () {
-      this.set('showEditor', false);
+          }).catch(err => {
+            alert('Failed to update the file. Check the console for more info.');
+            console.error(err);
+          }).finally(() => {
+            this.set('uploadingChanges', false);
+          });
+    } else {
+      console.warn('not implemented');
     }
+  },
 
+  cancelEditor() {
+    this.set('showEditor', false);
   }
 
 });

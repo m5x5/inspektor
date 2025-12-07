@@ -2,7 +2,7 @@
   <nav>
     <ul>
       {{#each this.categories as |category|}}
-      <li>{{#link-to "index" (query-params path=category.path)}}{{category.name}}{{/link-to}}</li>
+      <li><LinkTo @route="index" @query={{hash path=category.path}}>{{category.name}}</LinkTo></li>
       {{/each}}
     </ul>
   </nav>

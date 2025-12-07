@@ -1,7 +1,16 @@
-@import "bourbon";
-@import "resets";
-@import "colors";
-@import "layout";
+@use "bourbon";
+@use "resets";
+@use "colors" as *;
+@use "layout";
+@use "buttons"; // Disabled to allow Framework7 button styles
+@use "components/account-info";
+@use "components/breadcrumb-nav";
+@use "components/categories-nav";
+@use "components/directory-listing";
+@use "components/file-preview";
+@use "components/item-icon";
+@use "components/modal";
+@use "vendor/json-tree-view";
 
 html {
   font-family: Open Sans, sans-serif;
@@ -16,14 +25,3 @@ body {
   margin: 0;
   padding: 0;
 }
-
-@import "buttons";
-
-@import "components/account-info";
-@import "components/breadcrumb-nav";
-@import "components/categories-nav";
-@import "components/directory-listing";
-@import "components/file-preview";
-@import "components/item-icon";
-
-@import "vendor/json-tree-view";
