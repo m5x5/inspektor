@@ -13,7 +13,7 @@
     0 -4px 16px rgba(0, 0, 0, 0.12);
   padding: 8px 0 max(8px, env(safe-area-inset-bottom));
   z-index: 100;
-  display: none; // Hidden by default, shown on mobile
+  display: block; // Always visible for testing
 
   // Material You elevation and backdrop
   &::before {
@@ -168,6 +168,15 @@
   }
 }
 
+// Add padding for bottom nav on all screens
+#app-container {
+  &.connected {
+    > main {
+      padding-bottom: calc(80px + env(safe-area-inset-bottom)); // Space for bottom nav + safe area
+    }
+  }
+}
+
 // Show bottom nav on mobile, hide sidebar
 @media (max-width: 768px) {
   .bottom-navigation {
@@ -178,10 +187,6 @@
     &.connected {
       > aside {
         display: none; // Hide sidebar on mobile
-      }
-
-      > main {
-        padding-bottom: calc(80px + env(safe-area-inset-bottom)); // Space for bottom nav + safe area
       }
     }
 
@@ -212,16 +217,17 @@
   }
 }
 
-// Hide bottom nav on desktop
-@media (min-width: 769px) {
-  .bottom-navigation {
-    display: none;
-  }
-
-  .mobile-header {
-    display: none;
-  }
-}
+// Keep bottom nav visible on desktop (for testing)
+// Uncomment below to hide on desktop:
+// @media (min-width: 769px) {
+//   .bottom-navigation {
+//     display: none;
+//   }
+//
+//   .mobile-header {
+//     display: none;
+//   }
+// }
 
 // Extra polish for Material You on mobile
 @media (max-width: 768px) and (prefers-color-scheme: dark) {
