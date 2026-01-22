@@ -17,6 +17,7 @@ export default Controller.extend({
   rootListing: alias('storage.rootListing'),
   currentDirPath: null,
   isDownloading: false,
+  isSidebarOpen: false,
 
   connectedClass: computed('connected', function() {
     return this.get('connected') ? 'connected' : 'disconnected';
@@ -128,6 +129,16 @@ export default Controller.extend({
       alert('Failed to download data. Please check the console for details.');
     } finally {
       this.set('isDownloading', false);
+    }
+  },
+
+  actions: {
+    toggleSidebar() {
+      this.toggleProperty('isSidebarOpen');
+    },
+
+    closeSidebar() {
+      this.set('isSidebarOpen', false);
     }
   }
 

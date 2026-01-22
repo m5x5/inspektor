@@ -1,0 +1,13 @@
+<button
+  type="button"
+  class="menu-toggle {{if @isOpen "open"}}"
+  {{on "click" this.handleClick}}
+  aria-label={{if @isOpen "Close menu" "Open menu"}}
+  aria-expanded={{if @isOpen "true" "false"}}
+>
+  <span class="menu-toggle-icon">
+    <span class="line"></span>
+    <span class="line"></span>
+    <span class="line"></span>
+  </span>
+</button>

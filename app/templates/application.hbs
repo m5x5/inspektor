@@ -1,6 +1,13 @@
 <div class="ember-view">
 <div id="app-container" class={{this.connectedClass}}>
-  <aside>
+  {{#if this.connected}}
+    <MenuToggle
+      @isOpen={{this.isSidebarOpen}}
+      @onClick={{action "toggleSidebar"}}
+    />
+  {{/if}}
+
+  <aside class="{{if this.isSidebarOpen "sidebar-open" "sidebar-closed"}}">
   {{#if this.connected}}
       <AccountInfo
         @userAddress={{this.userAddress}}
@@ -10,6 +17,11 @@
       <CategoriesNav @categories={{this.categories}} />
   {{/if}}
   </aside>
+
+  {{#if this.isSidebarOpen}}
+    <div class="sidebar-overlay" {{action "closeSidebar"}}></div>
+  {{/if}}
+
   <main>
     {{outlet}}
   </main>
