@@ -1,0 +1,25 @@
+/* Mobile-specific styles for bottom navigation */
+
+/* Hide sidebar on mobile when bottom nav is visible */
+@media (max-width: 768px) {
+  #app-container.connected > aside {
+    display: none !important;
+  }
+
+  #app-container > main {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* Hide bottom nav on desktop */
+@media (min-width: 769px) {
+  nav[aria-label="Mobile Navigation"] {
+    display: none !important;
+  }
+
+  /* Remove bottom padding on desktop */
+  #app-container.connected > main {
+    padding-bottom: 3rem !important;
+  }
+}

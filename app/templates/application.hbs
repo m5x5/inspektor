@@ -10,7 +10,7 @@
       <CategoriesNav @categories={{this.categories}} />
   {{/if}}
   </aside>
-  <main>
+  <main class="{{if this.connected 'pb-nav-space'}}">
     {{outlet}}
   </main>
   {{#if this.connected}}

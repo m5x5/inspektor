@@ -4,7 +4,6 @@
 @use "layout";
 @use "buttons"; // Disabled to allow Framework7 button styles
 @use "components/account-info";
-@use "components/bottom-nav";
 @use "components/breadcrumb-nav";
 @use "components/categories-nav";
 @use "components/directory-listing";
@@ -12,6 +11,9 @@
 @use "components/item-icon";
 @use "components/modal";
 @use "vendor/json-tree-view";
+
+@import "tailwind.css";
+@import "bottom-nav-mobile.css";
 
 html {
   font-family: Open Sans, sans-serif;

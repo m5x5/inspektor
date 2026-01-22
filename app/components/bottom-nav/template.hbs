@@ -1,10 +1,25 @@
 {{#if @categories}}
-  <nav class="bottom-navigation" role="navigation" aria-label="Mobile Navigation">
-    <ul>
+  <nav
+    class="fixed bottom-0 left-0 right-0 bg-white rounded-t-[28px] shadow-[0_-2px_8px_rgba(0,0,0,0.08),0_-4px_16px_rgba(0,0,0,0.12)] z-[100] pb-safe"
+    role="navigation"
+    aria-label="Mobile Navigation"
+  >
+    {{! Material You gradient overlay }}
+    <div class="absolute inset-0 bg-gradient-to-b from-purple-500/5 to-purple-500/2 rounded-t-[28px] pointer-events-none"></div>
+
+    <ul class="flex justify-around items-center list-none m-0 p-2 relative z-10">
       {{#each @categories as |category|}}
-        <li>
-          <LinkTo @route="index" @query={{hash path=category.path}} class="nav-item" activeClass="active">
-            <span class="nav-icon">
+        <li class="flex-1 flex justify-center">
+          <LinkTo
+            @route="index"
+            @query={{hash path=category.path}}
+            class="flex flex-col items-center justify-center px-4 py-3 pb-4 no-underline text-gray-500 rounded-2xl transition-all duration-300 ease-out relative min-w-[64px] max-w-[96px] overflow-hidden select-none active:scale-95 hover:text-gray-800 hover:bg-purple-800/8"
+            activeClass="!text-blue-600 !font-medium bg-blue-600/12"
+          >
+            {{! State layer background }}
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-8 bg-transparent rounded-2xl transition-all duration-300 -z-10"></div>
+
+            <span class="text-2xl mb-1 flex items-center justify-center w-8 h-8 transition-transform duration-300">
               {{#if (eq category.name "documents")}}
                 📄
               {{else if (eq category.name "pictures")}}
@@ -19,8 +34,9 @@
                 📁
               {{/if}}
             </span>
-            <span class="nav-label">{{category.name}}</span>
-            <span class="ripple"></span>
+            <span class="text-xs font-medium tracking-wide text-center whitespace-nowrap overflow-hidden text-ellipsis w-full">
+              {{category.name}}
+            </span>
           </LinkTo>
         </li>
       {{/each}}
