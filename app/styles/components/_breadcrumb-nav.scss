@@ -20,3 +20,30 @@
   }
 
 }
+
+// Mobile optimizations for breadcrumb navigation
+@media (max-width: 768px) {
+  .breadcrumb-nav {
+    font-size: 0.9rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+
+    a {
+      padding: 0.5rem;
+      display: inline-block;
+      min-height: 44px; // Touch target size
+      line-height: 34px;
+    }
+
+    .node + .node {
+      margin-left: 0.25rem;
+
+      &::before {
+        padding-right: 0.4rem;
+      }
+    }
+  }
+}
+

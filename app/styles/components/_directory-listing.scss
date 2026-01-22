@@ -60,3 +60,37 @@
   }
 
 }
+
+// Mobile optimizations for directory listing
+@media (max-width: 768px) {
+  .directory-listing {
+    ul.listing {
+      margin-bottom: 2rem;
+
+      li {
+        a {
+          span {
+            padding: 0.75rem 0.5rem;
+
+            &.icon {
+              width: 10%;
+              font-size: 1.2rem;
+            }
+            &.name {
+              width: 60%;
+              font-size: 0.9rem;
+            }
+            &.size {
+              width: 15%;
+              font-size: 0.8rem;
+            }
+            &.type {
+              display: none; // Hide type column on mobile to save space
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

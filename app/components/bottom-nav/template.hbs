@@ -1,0 +1,29 @@
+{{#if @categories}}
+  <nav class="bottom-navigation" role="navigation" aria-label="Mobile Navigation">
+    <ul>
+      {{#each @categories as |category|}}
+        <li>
+          <LinkTo @route="index" @query={{hash path=category.path}} class="nav-item" activeClass="active">
+            <span class="nav-icon">
+              {{#if (eq category.name "documents")}}
+                📄
+              {{else if (eq category.name "pictures")}}
+                🖼️
+              {{else if (eq category.name "music")}}
+                🎵
+              {{else if (eq category.name "videos")}}
+                🎬
+              {{else if (eq category.name "public")}}
+                🌐
+              {{else}}
+                📁
+              {{/if}}
+            </span>
+            <span class="nav-label">{{category.name}}</span>
+            <span class="ripple"></span>
+          </LinkTo>
+        </li>
+      {{/each}}
+    </ul>
+  </nav>
+{{/if}}
