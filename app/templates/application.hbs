@@ -13,5 +13,8 @@
   <main>
     {{outlet}}
   </main>
+  {{#if this.connected}}
+    <BottomNav @categories={{this.categories}} />
+  {{/if}}
 </div>
 </div>

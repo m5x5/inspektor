@@ -1,0 +1,255 @@
+@use "../colors" as *;
+
+// Material You Bottom Navigation
+.bottom-navigation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 28px 28px 0 0;
+  box-shadow:
+    0 -2px 8px rgba(0, 0, 0, 0.08),
+    0 -4px 16px rgba(0, 0, 0, 0.12);
+  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+  z-index: 100;
+  display: none; // Hidden by default, shown on mobile
+
+  // Material You elevation and backdrop
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(103, 80, 164, 0.05) 0%,
+      rgba(103, 80, 164, 0.02) 100%
+    );
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  li {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px 16px;
+    text-decoration: none;
+    color: $dark-grey-3;
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    min-width: 64px;
+    max-width: 96px;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+
+    // Material You state layer
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 64px;
+      height: 32px;
+      background: transparent;
+      border-radius: 16px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: -1;
+    }
+
+    // Hover state
+    &:hover {
+      color: $dark-grey-1;
+
+      &::before {
+        background: rgba(103, 80, 164, 0.08);
+      }
+    }
+
+    // Active/Current state
+    &.active,
+    &:active {
+      color: $dark-blue;
+      font-weight: 500;
+
+      &::before {
+        background: rgba(0, 103, 199, 0.12);
+        width: 80px;
+        height: 36px;
+      }
+
+      .nav-icon {
+        transform: scale(1.1);
+      }
+    }
+
+    // Focus state for accessibility
+    &:focus {
+      outline: none;
+
+      &::before {
+        background: rgba(103, 80, 164, 0.12);
+        outline: 2px solid $dark-blue;
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  .nav-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+  }
+
+  .nav-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  // Material You Ripple Effect
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(103, 80, 164, 0.3);
+    transform: scale(0);
+    pointer-events: none;
+    z-index: -1;
+
+    &.ripple-active {
+      animation: ripple-animation 0.6s ease-out;
+    }
+  }
+
+  @keyframes ripple-animation {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+}
+
+// Show bottom nav on mobile, hide sidebar
+@media (max-width: 768px) {
+  .bottom-navigation {
+    display: block;
+  }
+
+  #app-container {
+    &.connected {
+      > aside {
+        display: none; // Hide sidebar on mobile
+      }
+
+      > main {
+        padding-bottom: calc(80px + env(safe-area-inset-bottom)); // Space for bottom nav + safe area
+      }
+    }
+
+    > main {
+      padding: 1.5rem 1rem; // Adjust padding for mobile
+
+      > header {
+        grid-template-columns: 1fr;
+        height: auto;
+
+        nav.actions {
+          grid-column-start: 1;
+          text-align: left;
+          margin-top: 1rem;
+        }
+      }
+    }
+  }
+
+  // Account info in header on mobile
+  .mobile-header {
+    display: flex;
+    padding: 1rem;
+    background: $dark-grey-1;
+    color: $light-grey-1;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+// Hide bottom nav on desktop
+@media (min-width: 769px) {
+  .bottom-navigation {
+    display: none;
+  }
+
+  .mobile-header {
+    display: none;
+  }
+}
+
+// Extra polish for Material You on mobile
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+  .bottom-navigation {
+    background: $dark-grey-1;
+    box-shadow:
+      0 -2px 8px rgba(0, 0, 0, 0.24),
+      0 -4px 16px rgba(0, 0, 0, 0.32);
+
+    &::before {
+      background: linear-gradient(
+        180deg,
+        rgba(103, 80, 164, 0.08) 0%,
+        rgba(103, 80, 164, 0.04) 100%
+      );
+    }
+
+    .nav-item {
+      color: $light-grey-1;
+
+      &:hover {
+        color: #fff;
+      }
+
+      &.active,
+      &:active {
+        color: #64b5f6;
+      }
+    }
+  }
+}
