@@ -1,64 +1,48 @@
 {
-  "name": "inspektor",
-  "version": "0.9.0",
+  "name": "nextjs-app",
+  "version": "0.1.0",
   "private": true,
-  "description": "Inspect the contents of your remote storage",
-  "license": "MIT",
-  "author": "",
-  "directories": {
-    "doc": "doc",
-    "test": "tests"
-  },
-  "repository": "gitlab:skddc/inspektor",
-  "ember": {
-    "edition": "octane"
-  },
   "scripts": {
-    "build": "ember build",
-    "build-prod": "ember build --environment production && npm run update-version-file",
-    "lint:js": "eslint ./*.js app config lib server tests",
-    "start": "ember serve",
-    "test": "ember test --test-port 0",
-    "deploy": "npm run build-prod && bash scripts/deploy.sh",
-    "update-version-file": "bash scripts/update-version-file.sh"
-  },
-  "devDependencies": {
-    "@ember/optional-features": "^2.2.0",
-    "@ember/string": "^4.0.1",
-    "@ember/test-helpers": "^5.3.0",
-    "bourbon": "^7.3.0",
-    "broccoli-asset-rev": "^2.4.5",
-    "ember-auto-import": "^2.7.2",
-    "ember-cli": "^6.7.0",
-    "ember-cli-app-version": "^7.0.0",
-    "ember-cli-babel": "^7.26.11",
-    "ember-cli-htmlbars": "^6.2.0",
-    "ember-cli-inject-live-reload": "^1.4.1",
-    "ember-cli-sass": "^10.0.1",
-    "ember-cli-sri": "^2.1.0",
-    "ember-cli-terser": "^4.0.2",
-    "ember-load-initializers": "^2.1.2",
-    "ember-qunit": "^9.0.4",
-    "ember-resolver": "^11.0.1",
-    "ember-source": "^6.7.0",
-    "eslint-plugin-ember": "^5.0.0",
-    "events": "^3.3.0",
-    "json-tree-view": "github:skddc/json-tree-view#bugfix/setters",
-    "loader.js": "^4.7.0",
-    "remotestorage-widget": "^1.8.0",
-    "remotestoragejs": "^1.2.3",
-    "sass": "^1.69.5"
-  },
-  "engines": {
-    "node": ">= 18"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
-    "@babel/runtime": "^7.28.4",
-    "buffer": "^6.0.3",
+    "@radix-ui/react-alert-dialog": "^1.1.15",
+    "@radix-ui/react-navigation-menu": "^1.2.14",
+    "@radix-ui/react-slot": "^1.2.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "file-saver": "^2.0.5",
     "framework7": "^8.3.4",
     "jszip": "^3.10.1",
-    "process": "^0.11.10",
-    "util": "^0.12.5"
+    "lucide-react": "^0.544.0",
+    "m5x5-remotestorage-widget": "^1.8.0",
+    "next": "^16.1.6",
+    "next-themes": "^0.4.6",
+    "pretty": "^2.0.0",
+    "radix-ui": "^1.4.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-json-view-lite": "^2.5.0",
+    "react-syntax-highlighter": "^16.1.1",
+    "remotestoragejs": "^2.0.0-beta.8",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.4",
+    "@tailwindcss/postcss": "^4.1.14",
+    "@types/node": "^20",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "autoprefixer": "^10.4.21",
+    "baseline-browser-mapping": "^2.10.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.14",
+    "tailwindcss-animate": "^1.0.7",
+    "tw-animate-css": "^1.4.0",
+    "typescript": "^5"
   }
 }

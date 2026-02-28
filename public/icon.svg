@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="96" fill="#0a0a0a"/>
+  <!-- Magnifying glass -->
+  <circle cx="220" cy="210" r="90" stroke="white" stroke-width="36" fill="none"/>
+  <line x1="285" y1="278" x2="370" y2="370" stroke="white" stroke-width="36" stroke-linecap="round"/>
+  <!-- Lines suggesting file content -->
+  <line x1="182" y1="195" x2="258" y2="195" stroke="white" stroke-width="18" stroke-linecap="round" opacity="0.6"/>
+  <line x1="182" y1="222" x2="240" y2="222" stroke="white" stroke-width="18" stroke-linecap="round" opacity="0.6"/>
+</svg>

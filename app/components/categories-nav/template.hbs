@@ -1,9 +1,0 @@
-{{#if this.categories}}
-  <nav>
-    <ul>
-      {{#each this.categories as |category|}}
-      <li><LinkTo @route="index" @query={{hash path=category.path}}>{{category.name}}</LinkTo></li>
-      {{/each}}
-    </ul>
-  </nav>
-{{/if}}
