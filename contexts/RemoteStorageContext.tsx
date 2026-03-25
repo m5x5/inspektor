@@ -37,6 +37,7 @@ export function RemoteStorageProvider({ children }: { children: ReactNode }) {
   const [rootListing, setRootListing] = useState<StorageItem[] | null>(null);
   const [localDataSnapshot, setLocalDataSnapshot] = useState<LocalDataSnapshot | null>(null);
   const listingCacheRef = useRef(new Map<string, { items: StorageItem[]; ts: number }>());
+  const inflightRef = useRef(new Map<string, Promise<StorageItem[]>>());
 
   useEffect(() => {
     if (!storage) return;
@@ -111,6 +112,47 @@ export function RemoteStorageProvider({ children }: { children: ReactNode }) {
       setConnected(false);
     };
 
+    // Fix RS sync 404 loop bug:
+    // When a remote GET returns 404 for a document, autoMerge returns
+    // undefined (bare `return` on line 586 of sync.ts). This means
+    // nodes[path] = undefined, but the old zombie node {common: {}}
+    // stays in IndexedDB. needsFetch() returns true for it, causing
+    // an infinite sync loop. Fix: patch completeFetch to delete the
+    // node from local storage when autoMerge returns undefined.
+    // Fix RS sync bugs for binary uploads:
+    // 1. needsRemotePut only accepts string bodies, but storeFile with
+    //    ArrayBuffer stores an object body. Patch to accept any truthy body.
+    // 2. After a 404, autoMerge leaves zombie nodes {common: {}} that
+    //    needsFetch re-queues forever. Patch doTask to clean these up.
+    try {
+      const rsAny = rs as any;
+      const sync = rsAny.sync;
+      if (sync) {
+        const proto = Object.getPrototypeOf(sync);
+
+        // Fix 1: needsRemotePut should accept non-string bodies (ArrayBuffer)
+        proto.needsRemotePut = function (node: any) {
+          return node.local && node.local.body !== undefined && node.local.body !== false;
+        };
+
+        // Fix 2: clean up zombie nodes in doTask
+        const origDoTask = proto.doTask;
+        proto.doTask = async function (path: string) {
+          const nodes = await rsAny.local.getNodes([path]);
+          const node = nodes[path];
+          if (node && node.common && !node.local && !node.remote &&
+              node.common.body === undefined && node.common.itemsMap === undefined) {
+            console.warn(`[RemoteStorage] Removing zombie node: ${path}`);
+            await rsAny.local.setNodes({ [path]: false });
+            return { action: undefined, path };
+          }
+          return origDoTask.call(this, path);
+        };
+      }
+    } catch (e) {
+      console.warn('[RemoteStorage] Could not patch sync:', e);
+    }
+
     // Attach event listeners
     rs.on('ready', onReady);
     rs.on('connected', onConnected);
@@ -150,31 +192,36 @@ export function RemoteStorageProvider({ children }: { children: ReactNode }) {
     };
   }, [storage]);
 
+  const fetchListing = useCallback((path: string): Promise<StorageItem[]> => {
+    const key = path || '';
+    const cached = listingCacheRef.current.get(key);
+    const ttl = cached?.items.length === 0 ? LISTING_CACHE_TTL_EMPTY_MS : LISTING_CACHE_TTL_MS;
+    if (cached && Date.now() - cached.ts < ttl) {
+      return Promise.resolve(cached.items);
+    }
+    const inflight = inflightRef.current.get(key);
+    if (inflight) return inflight;
+    const promise = storage.fetchListing(path).then(items => {
+      listingCacheRef.current.set(key, { items, ts: Date.now() });
+      inflightRef.current.delete(key);
+      return items;
+    }).catch(err => {
+      console.warn('[RemoteStorage] fetchListing error (path not cached):', err instanceof Error ? err.message : err);
+      inflightRef.current.delete(key);
+      return [] as StorageItem[];
+    });
+    inflightRef.current.set(key, promise);
+    return promise;
+  }, [storage]);
+
   useEffect(() => {
-    storage.fetchListing('').then(items => {
+    fetchListing('').then(items => {
       setRootListing(items);
     }).catch(err => {
       console.warn('[RemoteStorage] root listing failed:', err instanceof Error ? err.message : err);
       setRootListing([]);
     });
-  }, [connected, storage]);
-
-  const fetchListing = useCallback(async (path: string) => {
-    const key = path || '';
-    const cached = listingCacheRef.current.get(key);
-    const ttl = cached?.items.length === 0 ? LISTING_CACHE_TTL_EMPTY_MS : LISTING_CACHE_TTL_MS;
-    if (cached && Date.now() - cached.ts < ttl) {
-      return cached.items;
-    }
-    try {
-      const items = await storage.fetchListing(path);
-      listingCacheRef.current.set(key, { items, ts: Date.now() });
-      return items;
-    } catch (err) {
-      console.warn('[RemoteStorage] fetchListing error (path not cached):', err instanceof Error ? err.message : err);
-      return [];
-    }
-  }, [storage]);
+  }, [connected, fetchListing]);
 
   const getCachedListing = useCallback((path: string): StorageItem[] | null => {
     const key = path || '';

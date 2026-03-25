@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { XIcon, ListIcon, CodeIcon, EyeIcon, PencilIcon } from "lucide-react";
+import { XIcon, ListIcon, CodeIcon, EyeIcon, PencilIcon, BracesIcon, QrCodeIcon } from "lucide-react";
 import { CreateFAB, type CreateFABAction } from "@/components/CreateFAB";
+import { DashboardHome } from "@/components/DashboardHome";
 import { DirectoryListing } from "@/components/DirectoryListing";
 import { FilePreview } from "@/components/FilePreview";
 import { HomeHeaderActions } from "@/components/HomeHeaderActions";
+import { ShareDialog } from "@/components/ShareDialog";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -80,6 +82,8 @@ export function HomeClientContent() {
   const [jsonShowTree, setJsonShowTree] = useState(true);
   const [jsonShowSource, setJsonShowSource] = useState(false);
   const [showEditor, setShowEditor] = useState(false);
+  const [showRaw, setShowRaw] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [pendingDeleteItem, setPendingDeleteItem] = useState<StorageItem | null>(null);
 
   // Mount the header-actions portal target (client-only to avoid hydration mismatches)
@@ -106,16 +110,18 @@ export function HomeClientContent() {
     }
   };
 
-  const headerActionsPortal = headerActionsTarget
+  const isRootPath = currentDirPath === "/";
+  const pathKey = isRootPath ? "" : currentDirPath.replace(/^\//, "");
+
+  const headerActionsPortal = headerActionsTarget && !isRootPath
     ? createPortal(<HomeHeaderActions />, headerActionsTarget)
     : null;
-
-  const pathKey = currentDirPath === "/" ? "" : currentDirPath.replace(/^\//, "");
 
   const handleFileClick = (item: StorageItem) => {
     if (isMobile) return; // let Link navigate on mobile
     setSelectedFile(item);
     setShowEditor(false);
+    setShowRaw(false);
     setJsonShowTree(true);
     setJsonShowSource(false);
   };
@@ -142,7 +148,7 @@ export function HomeClientContent() {
   return (
     <>
       {headerActionsPortal}
-      <CreateFAB onAction={handleFABAction} />
+      {!isRootPath && <CreateFAB onAction={handleFABAction} />}
 
       <Dialog open={showCreateFolder} onOpenChange={setShowCreateFolder}>
         <DialogContent className="sm:max-w-md">
@@ -191,9 +197,9 @@ export function HomeClientContent() {
         </DialogContent>
       </Dialog>
 
-      {/* Listing: full-width when no file selected; always hidden when a file is selected (split pane has its own listing) */}
+      {/* Root: show dashboard; subfolder: show directory listing */}
       <div className={selectedFile ? "hidden" : undefined}>
-        {dirListing}
+        {isRootPath && !selectedFile ? <DashboardHome /> : dirListing}
       </div>
 
       {selectedFile && (() => {
@@ -222,6 +228,15 @@ export function HomeClientContent() {
                 </Button>
               </>
             )}
+            <Button
+              size="icon"
+              variant={showRaw ? "secondary" : "ghost"}
+              className="size-7"
+              title="Raw data"
+              onClick={() => setShowRaw((v) => !v)}
+            >
+              <BracesIcon className="size-4" />
+            </Button>
             {!selectedFile.isBinary && (
               <Button
                 size="icon"
@@ -231,6 +246,17 @@ export function HomeClientContent() {
                 onClick={() => setShowEditor((v) => !v)}
               >
                 {showEditor ? <EyeIcon className="size-4" /> : <PencilIcon className="size-4" />}
+              </Button>
+            )}
+            {storage && selectedFile.path.match(/public\//) && (
+              <Button
+                size="icon"
+                variant="ghost"
+                className="size-7"
+                title="Share / QR code"
+                onClick={() => setShareDialogOpen(true)}
+              >
+                <QrCodeIcon className="size-4" />
               </Button>
             )}
             <Button
@@ -258,6 +284,7 @@ export function HomeClientContent() {
             storage={storage}
             isJSON={isJSON}
             showEditor={showEditor}
+            showRaw={showRaw}
             jsonShowTree={jsonShowTree}
             jsonShowSource={jsonShowSource}
             onToggleJsonTree={() => { setJsonShowTree((v) => !v); setJsonShowSource(false); }}
@@ -318,6 +345,18 @@ export function HomeClientContent() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {selectedFile && storage && (() => {
+        const publicURL = selectedFile.path.match(/public\//) ? storage.getItemURL(selectedFile.path) : null;
+        return publicURL ? (
+          <ShareDialog
+            open={shareDialogOpen}
+            onOpenChange={setShareDialogOpen}
+            url={publicURL}
+            fileName={selectedFile.name}
+          />
+        ) : null;
+      })()}
     </>
   );
 }

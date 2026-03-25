@@ -5,10 +5,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import {
   PanelRightOpenIcon,
   ShareIcon,
+  QrCodeIcon,
   ListIcon,
   CodeIcon,
   EyeIcon,
   PencilIcon,
+  BracesIcon,
   TrashIcon,
   X,
   MoreVertical,
@@ -17,6 +19,7 @@ import { useRemoteStorage } from "@/contexts/RemoteStorageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { BreadcrumbNav } from "@/components/BreadcrumbNav";
 import { FilePreview } from "@/components/FilePreview";
+import { ShareDialog } from "@/components/ShareDialog";
 import { humanFileSize } from "@/lib/human-file-size";
 import { Button } from "@/components/ui/button";
 import {
@@ -55,6 +58,8 @@ export function InspectPageClient() {
   const [infoSheetOpen, setInfoSheetOpen] = useState(false);
   const [jsonView, setJsonView] = useState<"tree" | "source">("tree");
   const [documentShowEditor, setDocumentShowEditor] = useState(false);
+  const [showRaw, setShowRaw] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const isMobile = useIsMobile();
 
@@ -139,6 +144,11 @@ export function InspectPageClient() {
                 <PanelRightOpenIcon className="size-4" />
                 File info
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setShowRaw((v) => !v)}>
+                <BracesIcon className="size-4" />
+                {showRaw ? "Hide raw data" : "Show raw data"}
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem variant="destructive" onClick={() => setConfirmDeleteOpen(true)}>
                 <TrashIcon className="size-4" />
                 Delete
@@ -156,11 +166,9 @@ export function InspectPageClient() {
               Info
             </Button>
             {publicItemURL && (
-              <Button size="sm" asChild>
-                <a href={publicItemURL} target="_blank" rel="noopener noreferrer">
-                  <ShareIcon className="size-4" />
-                  Share
-                </a>
+              <Button size="sm" onClick={() => setShareDialogOpen(true)}>
+                <QrCodeIcon className="size-4" />
+                Share
               </Button>
             )}
             {documentIsJSON && (
@@ -207,6 +215,15 @@ export function InspectPageClient() {
                 </Button>
               </div>
             )}
+            <Button
+              size="sm"
+              variant={showRaw ? "secondary" : "ghost"}
+              onClick={() => setShowRaw((v) => !v)}
+              title="Raw data"
+            >
+              <BracesIcon className="size-4" />
+              Raw
+            </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button size="icon" variant="ghost" aria-label="More actions">
@@ -232,6 +249,7 @@ export function InspectPageClient() {
             storage={storage}
             isJSON={documentIsJSON}
             showEditor={documentShowEditor}
+            showRaw={showRaw}
             jsonShowTree={jsonView === "tree"}
             jsonShowSource={jsonView === "source"}
             onToggleJsonTree={() => setJsonView("tree")}
@@ -265,12 +283,19 @@ export function InspectPageClient() {
             </dl>
           </div>
           <div className="flex-1 overflow-auto p-4 space-y-2">
+            <Button
+              size="sm"
+              variant={showRaw ? "default" : "outline"}
+              className="w-full justify-start"
+              onClick={() => setShowRaw((v) => !v)}
+            >
+              <BracesIcon className="size-4 mr-2" />
+              Raw data
+            </Button>
             {publicItemURL && (
-              <Button size="sm" className="w-full justify-start" asChild>
-                <a href={publicItemURL} target="_blank" rel="noopener noreferrer">
-                  <ShareIcon className="size-4 mr-2" />
-                  Share
-                </a>
+              <Button size="sm" className="w-full justify-start" onClick={() => setShareDialogOpen(true)}>
+                <QrCodeIcon className="size-4 mr-2" />
+                Share
               </Button>
             )}
             {documentIsJSON && (
@@ -344,12 +369,19 @@ export function InspectPageClient() {
             </div>
           </dl>
           <div className="border-t border-border px-4 py-4 space-y-2">
+            <Button
+              size="sm"
+              variant={showRaw ? "default" : "outline"}
+              className="w-full justify-start"
+              onClick={() => { setShowRaw((v) => !v); setInfoSheetOpen(false); }}
+            >
+              <BracesIcon className="size-4 mr-2" />
+              Raw data
+            </Button>
             {publicItemURL && (
-              <Button size="sm" className="w-full justify-start" asChild>
-                <a href={publicItemURL} target="_blank" rel="noopener noreferrer">
-                  <ShareIcon className="size-4 mr-2" />
-                  Share
-                </a>
+              <Button size="sm" className="w-full justify-start" onClick={() => setShareDialogOpen(true)}>
+                <QrCodeIcon className="size-4 mr-2" />
+                Share
               </Button>
             )}
             {documentIsJSON && (
@@ -419,6 +451,15 @@ export function InspectPageClient() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {publicItemURL && (
+        <ShareDialog
+          open={shareDialogOpen}
+          onOpenChange={setShareDialogOpen}
+          url={publicItemURL}
+          fileName={docMeta.name}
+        />
+      )}
     </>
   );
 }

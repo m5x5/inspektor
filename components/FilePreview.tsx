@@ -25,6 +25,7 @@ type FilePreviewProps = {
   storage: RemoteStorageService | null;
   isJSON: boolean;
   showEditor: boolean;
+  showRaw: boolean;
   jsonShowTree: boolean;
   jsonShowSource: boolean;
   onToggleJsonTree: () => void;
@@ -33,11 +34,17 @@ type FilePreviewProps = {
   onCancelEditor: () => void;
 };
 
+const IMAGE_EXTENSIONS = /\.(jpe?g|png|gif|webp|svg|bmp|ico|avif|tiff?)$/i;
+const AUDIO_EXTENSIONS = /\.(mp3|wav|ogg|aac|flac|m4a|wma|opus|webm)$/i;
+const VIDEO_EXTENSIONS = /\.(mp4|webm|ogv|mov|avi|mkv)$/i;
+const PDF_EXTENSION = /\.pdf$/i;
+
 export function FilePreview({
   metaData,
   storage,
   isJSON,
   showEditor,
+  showRaw,
   jsonShowTree,
   jsonShowSource,
   onToggleJsonTree,
@@ -47,13 +54,15 @@ export function FilePreview({
 }: FilePreviewProps) {
   const [loaded, setLoaded] = useState(false);
   const [fileContent, setFileContent] = useState<string | null>(null);
+  const [rawContent, setRawContent] = useState<string | null>(null);
   const [objectURL, setObjectURL] = useState<string | null>(null);
   const [editedJson, setEditedJson] = useState("");
   const [uploading, setUploading] = useState(false);
 
-  const isImage = /^image\/.+/.test(metaData.type);
-  const isAudio = /^audio\/.+/.test(metaData.type);
-  const isVideo = /^video\/.+/.test(metaData.type);
+  const isImage = /^image\/.+/.test(metaData.type) || IMAGE_EXTENSIONS.test(metaData.name);
+  const isAudio = /^audio\/.+/.test(metaData.type) || AUDIO_EXTENSIONS.test(metaData.name);
+  const isVideo = /^video\/.+/.test(metaData.type) || VIDEO_EXTENSIONS.test(metaData.name);
+  const isPDF = /^application\/pdf/.test(metaData.type) || PDF_EXTENSION.test(metaData.name);
   const isBinary = metaData.isBinary === true || metaData.type === "folder" || /charset=binary/.test(metaData.type);
   const isText = !isBinary;
   const isHTML =
@@ -79,34 +88,51 @@ export function FilePreview({
     }
   }, [fileContent, isHTML]);
 
+  // Reset state when file changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: intentional reset on path change
   useEffect(() => {
-    if (!metaData.path || !storage) return;
-    const path = metaData.path;
+    setLoaded(false);
+    setFileContent(null);
+    setRawContent(null);
+    setObjectURL((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
+    setEditedJson("");
+  }, [metaData.path]);
 
-    if (isAudio || isVideo) {
-      const url = storage.getItemURL(path);
-      if (url) {
-        setObjectURL(url);
-        setLoaded(true);
-      }
-      return;
-    }
+  useEffect(() => {
+    if (!metaData.path || !storage || loaded) return;
+    let cancelled = false;
+    const path = metaData.path;
+    const needsBlobURL = isImage || isPDF || isAudio || isVideo;
 
     storage.getFile(path).then((file: { data: string | ArrayBuffer; contentType?: string }) => {
-      if (!file) return;
+      if (cancelled || !file) { if (!cancelled) setLoaded(true); return; }
       const data = file.data;
-      if (isImage && data instanceof ArrayBuffer) {
-        const blob = new Blob([data], { type: file.contentType || "application/octet-stream" });
+      if (needsBlobURL && data instanceof ArrayBuffer) {
+        let mimeType = file.contentType || "application/octet-stream";
+        if (isPDF) mimeType = "application/pdf";
+        else if (isAudio && !/^audio\//.test(mimeType)) mimeType = "audio/mpeg";
+        else if (isVideo && !/^video\//.test(mimeType)) mimeType = "video/mp4";
+        const blob = new Blob([data], { type: mimeType });
         setObjectURL(URL.createObjectURL(blob));
+        const bytes = new Uint8Array(data);
+        const hex = Array.from(bytes.slice(0, 4096))
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join(" ");
+        setRawContent(hex + (bytes.length > 4096 ? `\n\n… (${bytes.length.toLocaleString()} bytes total)` : ""));
       } else if (typeof data === "string") {
         setFileContent(data);
+        setRawContent(data);
       } else if (data instanceof ArrayBuffer) {
         const dec = new TextDecoder();
-        setFileContent(dec.decode(data));
+        const text = dec.decode(data);
+        setFileContent(text);
+        setRawContent(text);
       }
       setLoaded(true);
-    }).catch(() => setLoaded(true));
-  }, [metaData.path, storage, isImage, isAudio, isVideo]);
+    }).catch(() => { if (!cancelled) setLoaded(true); });
+
+    return () => { cancelled = true; };
+  }, [metaData.path, storage, loaded, isImage, isPDF, isAudio, isVideo]);
 
   const saveChanges = useCallback(() => {
     if (!storage || !isJSON) return;
@@ -129,17 +155,45 @@ export function FilePreview({
 
   if (!loaded) return <p className="p-4">Loading…</p>;
 
+  // Raw data view — show underlying content for any file type
+  if (showRaw && rawContent !== null) {
+    return (
+      <div className="overflow-auto rounded-md text-[0.9rem] [&_pre]:!p-4 [&_pre]:!m-0 [&_pre]:!bg-transparent [&_pre]:!whitespace-pre-wrap [&_pre]:!break-words [&_code]:!whitespace-pre-wrap [&_code]:!break-words [&>div]:!whitespace-pre-wrap [&>div]:!break-words">
+        <SyntaxHighlighter language="plaintext" style={oneLight} showLineNumbers PreTag="div" customStyle={{ margin: 0 }}>
+          {rawContent}
+        </SyntaxHighlighter>
+      </div>
+    );
+  }
+
+  // Image preview (works for both binary and text-detected-by-extension)
+  if (isImage && objectURL) {
+    return <img src={objectURL} alt={metaData.name} className="max-w-full h-auto p-4" />;
+  }
+
+  // PDF preview
+  if (isPDF && objectURL) {
+    return (
+      <iframe
+        src={objectURL}
+        title={metaData.name}
+        className="w-full h-[calc(100dvh-8rem)] border-0"
+      />
+    );
+  }
+
+  // Audio preview
+  if (isAudio && objectURL) {
+    return <audio src={objectURL} controls className="w-full p-4" />;
+  }
+
+  // Video preview
+  if (isVideo && objectURL) {
+    return <video src={objectURL} controls className="max-w-full p-4" />;
+  }
+
   if (isBinary) {
-    if (isImage && objectURL) {
-      return <img src={objectURL} alt={metaData.name} className="max-w-full h-auto" />;
-    }
-    if (isAudio && objectURL) {
-      return <audio src={objectURL} controls className="w-full" />;
-    }
-    if (isVideo && objectURL) {
-      return <video src={objectURL} controls className="max-w-full" />;
-    }
-    return <p>No preview available for this content type.</p>;
+    return <p className="p-4 text-muted-foreground">No preview available for this content type.</p>;
   }
 
   if (isText) {

@@ -9,7 +9,8 @@ import { useInstallPrompt } from "@/contexts/InstallPromptContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { AccountInfo } from "./AccountInfo";
 import { CategoriesNav } from "./CategoriesNav";
-import { MoreVertical, FolderPlusIcon, User, LogOut, Download, SunIcon, MoonIcon, MonitorIcon, DownloadIcon } from "lucide-react";
+import Link from "next/link";
+import { MoreVertical, FolderPlusIcon, User, LogOut, LogIn, Download, SunIcon, MoonIcon, MonitorIcon, DownloadIcon } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -133,10 +134,19 @@ const AppSidebar = memo(function AppSidebar() {
           System
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={disconnect}>
-          <LogOut className="size-4" />
-          Disconnect
-        </DropdownMenuItem>
+        {connected ? (
+          <DropdownMenuItem onClick={disconnect}>
+            <LogOut className="size-4" />
+            Disconnect
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem asChild>
+            <Link href="/connect">
+              <LogIn className="size-4" />
+              Connect
+            </Link>
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -264,10 +274,19 @@ const MobileTopHeader = memo(function MobileTopHeader() {
             System
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={disconnect}>
-            <LogOut className="size-4" />
-            Disconnect
-          </DropdownMenuItem>
+          {connected ? (
+            <DropdownMenuItem onClick={disconnect}>
+              <LogOut className="size-4" />
+              Disconnect
+            </DropdownMenuItem>
+          ) : (
+            <DropdownMenuItem asChild>
+              <Link href="/connect">
+                <LogIn className="size-4" />
+                Connect
+              </Link>
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </header>

@@ -11,6 +11,7 @@ import {
 import { useSearchParams } from "next/navigation";
 import { useRemoteStorage } from "@/contexts/RemoteStorageContext";
 import type { StorageItem } from "@/lib/remotestorage";
+import { recordUploads } from "@/lib/upload-tracker";
 import { toast } from "sonner";
 
 type HomePageContextValue = {
@@ -74,7 +75,6 @@ export function HomePageProvider({ children }: { children: ReactNode }) {
     if (cached) {
       setListing(cached);
       setLoading(false);
-      fetchListing(pathKey).then((items) => setListing(items)).catch(() => {});
       return;
     }
     setLoading(true);
@@ -134,17 +134,47 @@ export function HomePageProvider({ children }: { children: ReactNode }) {
     const input = document.createElement("input");
     input.type = "file";
     input.multiple = true;
+    input.style.display = "none";
+    document.body.appendChild(input);
+
+    const cleanup = () => {
+      if (document.body.contains(input)) document.body.removeChild(input);
+    };
+
     input.onchange = async (e) => {
       const files = (e.target as HTMLInputElement).files;
-      if (!files?.length || !storage) return;
-      const path = currentDirPath === "/" ? "" : currentDirPath.replace(/^\//, "");
-      for (const file of Array.from(files)) {
-        const buf = await file.arrayBuffer();
-        await storage.storeFile(path + file.name, file.type || "application/octet-stream", buf);
+      if (!files?.length || !storage) {
+        cleanup();
+        return;
       }
-      invalidateListingContext(path || "");
-      loadListing();
+      const path = currentDirPath === "/" ? "" : currentDirPath.replace(/^\//, "");
+      try {
+        const fileList = Array.from(files);
+        await Promise.all(
+          fileList.map(async (file) => {
+            const buf = await file.arrayBuffer();
+            return storage.storeFile(path + file.name, file.type || "application/octet-stream", buf);
+          })
+        );
+        recordUploads(
+          fileList.map((file) => ({
+            name: file.name,
+            path: path + file.name,
+            type: file.type || "application/octet-stream",
+            size: file.size,
+          }))
+        );
+        invalidateListingContext(path || "");
+        loadListing();
+        toast.success(`Uploaded ${files.length} file${files.length > 1 ? "s" : ""}.`);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to upload file.");
+      } finally {
+        cleanup();
+      }
     };
+
     input.click();
   }, [storage, currentDirPath, invalidateListingContext, loadListing]);
 
